@@ -3,7 +3,7 @@ switch(Sys.info()[['sysname']],
        # On Windows, this is Yue's directory
        Windows = {  work.dir <- "C:/Users/Yue/Desktop/Research_Project/research/stream-mining" },
        # On Linux, this is Phil's directory
-       Linux = { work.dir <- "~/h/proj/ieee-stream-mining-code"  })
+       Linux = { work.dir <- "~/h/proj/ieee-stream-mining/code"  })
 setwd(work.dir)
 source("dodgers-load.r")
 
@@ -585,13 +585,36 @@ run.sliding.windows.nnet <- function(sliding.window.size, validate=FALSE, maxit 
 
 pred.ens.nnet <- function (ens.nnet, test)
 {
-   votes.class0 <- c()
-   for (model in tail(ens.nnet, global.setup.K)) {
-      pred <- predict(model, test)
-      votes.class0 <- cbind(votes.class0, round(pred))
-   }
-   factor(round(unname(rowMeans(votes.class0))), levels=levels.binary)
+  votes.class0 <- c()
+  for (model in tail(ens.nnet, global.setup.K)) {
+    pred <- predict(model, test)
+    votes.class0 <- cbind(votes.class0, round(pred))
+  }
+  factor(round(unname(rowMeans(votes.class0))), levels=levels.binary)
 }
+
+compute.gram.matrix <- function(A) {
+  m <- dim(A)[2]
+  
+  G <- matrix(NA, m, m)
+  for(i in 1:m)
+    for(j in 1:m)
+      G[i, j] <- A[, i] %*% A[, j]
+  
+  G
+}
+
+build.error.table <- function (ens.nnet, test, labels)
+{
+  votes.class0 <- c()
+  for (model in tail(ens.nnet, global.setup.K)) {
+    pred <- predict(model, test)
+    votes.class0 <- cbind(votes.class0, round(pred))
+  }
+
+  apply(votes.class0, 2, function(col) { (col != labels)*1 })
+}
+
 ##############################################################################
 # Note: It is not recommended to go below 10 for 'sliding.window.size' when
 # using the Dodgers Loop Dataset, as the sliding windows will frequently
@@ -686,6 +709,7 @@ run.sliding.windows.ens.nnet <- function(sliding.window.size, validate=FALSE, ma
    
    # Predict testing dataset
    pred.test <- pred.ens.nnet(ens.nnet, my.test.data)
+   err.table <<- build.error.table(ens.nnet, my.test.data, my.test.labels)
    cm.ens.nnet<- confusionMatrix(pred.test, my.test.labels)
    cat(paste("Ensemble Method Neural Nets", my.mode, "Accuracy =", cm.ens.nnet$overall[[1]], "\n"))
    

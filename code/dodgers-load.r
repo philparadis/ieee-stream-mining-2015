@@ -5,7 +5,7 @@ switch(Sys.info()[['sysname']],
        # On Windows, this is Yue's directory
        Windows = {  work.dir <- "C:/Users/Yue/Desktop/Research_Project/research/stream-mining" },
        # On Linux, this is Phil's directory
-       Linux = { work.dir <- "~/h/proj/ieee-stream-mining-code"  })
+       Linux = { work.dir <- "~/h/proj/ieee-stream-mining/code"  })
 setwd(work.dir)
 
 library(xtable)

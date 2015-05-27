@@ -4,6 +4,12 @@
 # (incrementally) on a streaming dataset.
 # There is also a function "predict" to predict unlabeled data
 # based on a "senn" model.
+setClass("senn", representation(ens = "list",
+                                formula = "formula",
+                                data = "data.frame",
+                                windows.size = "numeric",
+                                step.length = "numeric",
+                                ensemble.max.size = "numeric"))
 
 senn <- function(formula,
                  data,
@@ -22,7 +28,10 @@ senn <- function(formula,
   #   ...: Arguments to pass to the underlying neural network models.
   # Returns:
   #   A "senn" model
-  
+  model <- new("senn", formula=formula, data=data,
+               windows.size=windows.size,
+               step.length=step.length,
+               ensemble.max.size=ensemble.max.size)
   
 }
 
@@ -220,12 +229,17 @@ run.sliding.windows.nnet <- function(sliding.window.size, validate=FALSE, maxit 
 }
 
 
+
 #################################################################
 # Definition of Ensemble method with Sliding Windows Neural Net
 # The weights are passed from one sliding window to the other,
 # but only to initialize the next neural network and help training.
 # A different neural network is produced for each sliding window.
 #################################################################
+
+predict.senn <- function(senn, newdata)
+{
+}
 
 pred.ens.nnet <- function (ens.nnet, test)
 {

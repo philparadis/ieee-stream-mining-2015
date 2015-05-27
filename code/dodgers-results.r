@@ -3,16 +3,21 @@ switch(Sys.info()[['sysname']],
        # On Windows, this is Yue's directory
        Windows = {  work.dir <- "C:/Users/Yue/Desktop/Research_Project/research/stream-mining" },
        # On Linux, this is Phil's directory
-       Linux = { work.dir <- "~/h/proj/ieee-stream-mining-code"  })
+       Linux = { work.dir <- "~/h/proj/ieee-stream-mining/code"  })
 setwd(work.dir)
 source("dodgers.r")
 
+# Set parameters
 margins <-c(4, 4, 0.8, 0.5)
 std.width <- 7
-std.height <- 2.8
+std.height <- 3
 
 std.maxit <- 50
 std.h.size <- 4
+
+# Set color palette
+oldpalette <- palette()
+palette(gray(seq(0.1, 0.4, len=8)))
 
 # Create 'figures' and 'objects' subdirectories if they don't exist
 setwd(work.dir)
@@ -106,11 +111,11 @@ if (file.exists("objects/exp.nnet.ensemble")) {
 prep.out("figures/results-nnet-ensemble.pdf", width=std.width, height=std.height)
 with(exp.nnet.ensemble$results, {
    par(mar=margins)
-   plot(train.accuracy ~ windows.size, col=2, type="o", pch=15, ylim=range(c(0.75,1)),
+   plot(test.accuracy ~ windows.size, col=2, type="o", pch=17,
+        ylim=range(c(0.5,1)),
         ylab="Accuracy", xlab="Sliding windows size")
-   lines(test.accuracy ~ windows.size, type="o", col=3, pch=15)
    grid(col="lightblue4")
-   legend("bottomright", c("Train Accuracy", "Test Accuracy"), col=c(2,3), pch=15, bg="white")
+   legend("bottomright", c("Test Accuracy"), col=c(2), pch=c(17), bg="white")
 })
 dev.off()
 
@@ -210,21 +215,25 @@ if (file.exists("objects/exp.nnet.ens.maxit.dnpw")) {
    saveRDS(exp.nnet.ens.maxit.dnpw, file="objects/exp.nnet.ens.maxit.dnpw")
 }
 
-prep.out("figures/results-nnet-ens-maxit.pdf", width=std.width, height=std.height)
+prep.out("figures/results-nnet-ens-maxit.pdf", width=std.width, height=std.height+1.5)
 par(mar=margins)
 plot(exp.nnet.ens.maxit.pw$results$train.accuracy ~ exp.nnet.ens.maxit.pw$results$maxit,
-     col=4, type="o", pch=15, ylim=range(c(0.5,1.0)),
+     col=4, type="o", pch=17,
+     ylim=range(c(exp.nnet.ens.maxit.pw$results$test.accuracy,
+                  exp.nnet.ens.maxit.dnpw$results$train.accuracy,
+                  exp.nnet.ens.maxit.dnpw$results$test.accuracy,
+                  0.5, 1.0)),
      ylab="Accuracy", xlab="Maximum number of iterations (maxit)")
 lines(exp.nnet.ens.maxit.pw$results$test.accuracy ~ exp.nnet.ens.maxit.pw$results$maxit,
-      type="o", col=5, pch=15)
+      type="o", col=5, pch=19)
 lines(exp.nnet.ens.maxit.dnpw$results$train.accuracy ~ exp.nnet.ens.maxit.pw$results$maxit,
-      type="o", col=8, pch=15)
+      type="o", col=8, pch=0)
 lines(exp.nnet.ens.maxit.dnpw$results$test.accuracy ~ exp.nnet.ens.maxit.pw$results$maxit,
-      type="o", col=9, pch=15)
+      type="o", col=9, pch=8)
 grid(col="lightblue4")
 legend("bottomright", c("Pass weights (training set)", "Pass weights (testing set)",
                         "Do not pass weights (training set)", "Do not pass weights (testing set)"),
-       col=c(4,5,8,9), pch=15, bg="white")
+       col=c(4,5,8,9), pch=c(17,19,0,8), bg="white")
 dev.off()
 
 
@@ -252,11 +261,11 @@ if (file.exists("objects/exp.nnet.minibatch")) {
 prep.out("figures/results-nnet-minibatch.pdf", width=std.width, height=std.height)
 with(exp.nnet.minibatch$results, {
    par(mar=margins)
-   plot(train.accuracy ~ windows.size, col=2, type="o", pch=15, ylim=range(train.accuracy, test.accuracy),
+   plot(test.accuracy ~ windows.size, col=2, type="o", pch=17,
+        ylim=range(c(0.5,1)),
         ylab="Accuracy", xlab="Sliding windows size")
-   lines(test.accuracy ~ windows.size, type="o", col=3, pch=15)
    grid(col="lightblue4")
-   legend("bottomright", c("Train Accuracy", "Test Accuracy"), col=c(2,3), pch=15, bg="white")
+   legend("bottomright", c("Test Accuracy"), col=c(2), pch=17, bg="white")
 })
 dev.off()
 
@@ -305,26 +314,23 @@ dev.off()
 
 prep.out("figures/results-all-methods-compare.pdf", width=std.width, height=std.height)
 par(mar=margins)
-plot(exp.trees.ensemble$results$test.accuracy ~ exp.trees.ensemble$results$windows.size,
-     col=3, type="o", pch=15,
-     ylim=range(exp.trees.ensemble$results$test.accuracy,
-                exp.nnet.minibatch$results$test.accuracy,
+plot(exp.nnet.minibatch$results$test.accuracy ~ exp.nnet.minibatch$results$windows.size,
+     col=3, type="o", pch=17,
+     ylim=range(exp.nnet.minibatch$results$test.accuracy,
                 exp.nnet.ensemble$results$test.accuracy,
-                exp.nnet.ensemble.dnpw$results$test.accuracy),
+                exp.nnet.ensemble.dnpw$results$test.accuracy,
+                0.5, 1.0),
      ylab="Accuracy", xlab="Sliding windows size")
-lines(exp.nnet.minibatch$results$test.accuracy ~ exp.nnet.minibatch$results$windows.size,
-      col=6, type="o", pch=15,)
 lines(exp.nnet.ensemble$results$test.accuracy ~ exp.nnet.ensemble$results$windows.size,
-      col=4, type="o", pch=15,)
+      col=4, type="o", pch=19,)
 lines(exp.nnet.ensemble.dnpw$results$test.accuracy ~ exp.nnet.ensemble.dnpw$results$windows.size,
       col=2, type="o", pch=15,)
 grid(col="lightblue4")
 legend("bottomright",
-       c("Sliding Forests",
-         "Sliding Mini-batch Neural Networks",
+       c("Sliding Mini-batch Neural Networks",
          "Sliding Ensemble Neural Networks",
          "Sliding Ensemble Neural Networks (do not pass weights)"),
-       col=c(3,6,4,2), pch=15, bg="white")
+       col=c(3,6,4,2), pch=c(17,19,15), bg="white")
 dev.off()
 
 # Print summary of comparison of all 3 methods in a LaTeX table
@@ -404,16 +410,18 @@ prep.out("figures/results-nnet-ens-timing.pdf", width=std.width, height=std.heig
 par(mar=margins)
 # Plot 'time ~ windows.size', comparing pass and donotpass experiments
 with(exp.nnet.ens.time.pass$results, {
-   plot(1000*time/(70-windows.size+1) ~ windows.size, col=4, type="o", pch=15,
+   plot(1000*time/(70-windows.size+1) ~ windows.size, col=4, type="o", pch=17,
         ylim=range(1000*c(time/(70-windows.size+1),
                           exp.nnet.ens.time.donotpass$results$time/(70-exp.nnet.ens.time.donotpass$results$windows.size+1))),
         #ylim=range(exp.nnet.ens.time.pass$results$time, exp.nnet.ens.time.donotpass$results$time),
         ylab="Time / window (milliseconds)", xlab="Sliding windows size")
 })
 with(exp.nnet.ens.time.donotpass$results, {
-   lines(1000*time/(70-windows.size+1) ~ windows.size, type="o", col=5, pch=15)
+   lines(1000*time/(70-windows.size+1) ~ windows.size, type="o", col=5, pch=19)
    grid(col="lightblue4")
-   legend("bottomright", c("Pass weights to next window", "Do not pass weights"), col=c(4,5), pch=15, bg="white")
+   legend("bottomright",
+          c("Pass weights to next window", "Do not pass weights"),
+          col=c(4,5), pch=c(17,19), bg="white")
 })
 dev.off()
 # Compute mean of time speedup
@@ -445,11 +453,13 @@ if (file.exists("objects/exp.benchmark")) {
    saveRDS(exp.benchmark, file="objects/exp.benchmark")
 }
 
-prep.out("figures/results-benchmark.pdf", width=std.width, height=3.5)
+prep.out("figures/results-benchmark.pdf", width=std.width, height=3.2)
 oldpar <- par(xpd=NA, oma=c(6,0,0,0), mar=c(1.1, 4.1, 1, 0.5))
 mp <- barplot(xtabs(avg.test.acc ~ name, exp.benchmark$results),
         ylim=c(0,1), las=2,
-        ylab= "Test Accuracy", xlab="", col=rainbow(nrow(exp.benchmark$results)))
+        ylab= "Test Accuracy", xlab="",
+        col=gray(0.75))
+        #col=rainbow(nrow(exp.benchmark$results)))
 title(xlab = "Classifier", outer = TRUE, line = 4)
 vals <- signif(exp.benchmark$results$avg.test.acc, 3)
 text(mp, vals, labels = vals, pos = 3)
@@ -483,7 +493,8 @@ prep.out("figures/results-benchmark-2.pdf", width=std.width, height=std.height)
 oldpar <- par(xpd=NA, oma=c(6,0,0,0), mar=c(1.1, 4.1, 0.75, 0.5))
 mp <- barplot(xtabs(avg.test.acc ~ name, exp.benchmark.2$results),
               ylim=c(0,1), las=2,
-              ylab= "Test Accuracy", xlab="", col=rainbow(nrow(exp.benchmark.2$results)))
+              ylab= "Test Accuracy", xlab="",
+              col=rainbow(nrow(exp.benchmark.2$results)))
 title(xlab = "Classifier", outer = TRUE, line = 4)
 vals <- signif(exp.benchmark.2$results$avg.test.acc, 3)
 text(mp, vals, labels = vals, pos = 3)
@@ -518,7 +529,9 @@ prep.out("figures/results-benchmark-3.pdf", width=std.width, height=std.height)
 oldpar <- par(xpd=NA, oma=c(6,0,0,0), mar=c(1.1, 4.1, 0.75, 0.5))
 mp <- barplot(xtabs(avg.test.acc ~ name, exp.benchmark.3$results),
               ylim=c(0,1), las=2,
-              ylab= "Test Accuracy", xlab="", col=rainbow(nrow(exp.benchmark.3$results)))
+              ylab= "Test Accuracy", xlab="",
+              col=gray(0.75))
+              #col=rainbow(nrow(exp.benchmark.3$results)))
 title(xlab = "Classifier", outer = TRUE, line = 4)
 vals <- signif(exp.benchmark.3$results$avg.test.acc, 3)
 text(mp, vals, labels = vals, pos = 3)

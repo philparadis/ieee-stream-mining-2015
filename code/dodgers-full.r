@@ -1,4 +1,4 @@
-work.dir <- "~/h/proj/ieee-stream-mining"
+work.dir <- "~/h/proj/ieee-stream-mining/code"
 
 # Create 'figures' and 'objects' subdirectories if they don't exist
 setwd(work.dir)
@@ -1005,6 +1005,7 @@ pred.ens.nnet <- function (ens.nnet, test)
    }
    factor(round(unname(rowMeans(votes.class0))), levels=levels.binary)
 }
+
 ##############################################################################
 # Note: It is not recommended to go below 10 for 'sliding.window.size' when
 # using the Dodgers Loop Dataset, as the sliding windows will frequently
@@ -1099,7 +1100,7 @@ run.sliding.windows.ens.nnet <- function(sliding.window.size, validate=FALSE, ma
    
    # Predict testing dataset
    pred.test <- pred.ens.nnet(ens.nnet, my.test.data)
-   cm.ens.nnet<- confusionMatrix(pred.test, my.test.labels)
+   cm.ens.nnet <- confusionMatrix(pred.test, my.test.labels)
    cat(paste("Ensemble Method Neural Nets", my.mode, "Accuracy =", cm.ens.nnet$overall[[1]], "\n"))
    
    # Return mean training accuracy and ensemble method test accuracy

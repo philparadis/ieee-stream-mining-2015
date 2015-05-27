@@ -12,7 +12,8 @@ obj.name <- "objects/senn-airlines"
 if (file.exists(obj.name)) {
   exp.nnet.ensemble <- readRDS(obj.name)
 } else {
-  model <- senn
+  model <- senn(.~Delay, data=df.airlines,
+                
   setup.test.train(d.byday.1hour, 70, 81)
   r <- with.loop(seq(5,50,3), run.sliding.windows.ens.nnet,
                  hidden.layer.size=std.h.size, maxit=std.maxit, decay=0.1,
