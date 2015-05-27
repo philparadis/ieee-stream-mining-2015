@@ -67,14 +67,14 @@ legend("topright", c("Pass weights", "Do not pass weights"),
 print.binary.heatmap <- function(diff.table)
 {
   nRow = nrow(diff.table)
-  stepRow <- max(1, floor(nRow/25)+1)
+  stepRow <- max(1, floor(nRow/20)+1)
   labRow <- rep(NA, nRow)
   labRow[seq(1, nRow, stepRow)] <- seq(1, nRow, stepRow)
   nCol = ncol(diff.table)
-  stepCol <- max(1, floor(nCol/25)+1)
+  stepCol <- max(1, floor(nCol/20)+1)
   labCol <- rep(NA, nCol)
   labCol[seq(1, nCol, stepCol)] <- seq(1, nCol, stepCol)
-  oldpar <- par(mar=c(0,0,0,0))
+  
   heatmap(diff.table, scale = "none",
           Rowv = NA, Colv = NA,
           col = c(gray(1), gray(0.2)),
@@ -85,21 +85,20 @@ print.binary.heatmap <- function(diff.table)
           labCol = labCol,
           main = "",
           margins = c(8,5))
-  par(oldpar)
 }
 
 print.heatmap <- function(diff.table)
 {
+  
   nRow = nrow(diff.table)
-  stepRow <- max(1, floor(nRow/25)+1)
+  stepRow <- max(1, floor(nRow/20)+1)
   labRow <- rep(NA, nRow)
   labRow[seq(1, nRow, stepRow)] <- seq(1, nRow, stepRow)
   nCol = ncol(diff.table)
-  stepCol <- max(1, floor(nCol/25)+1)
+  stepCol <- max(1, floor(nCol/20)+1)
   labCol <- rep(NA, nCol)
   labCol[seq(1, nCol, stepCol)] <- seq(1, nCol, stepCol)
-  oldpar <- par(mar=c(0,0,0,0))
-  oldpar <- par(mar=c(0,0,0,0))
+  
   heatmap(diff.table, scale = "none",
           Rowv = NA, Colv = NA,
           col = gray(seq(1,0,len=255)),
@@ -110,26 +109,40 @@ print.heatmap <- function(diff.table)
           labCol = labCol,
           cexRow = 1.3, cexCol = 1.3,
           main = "") 
-  par(oldpar)
 }
+
+heatmap.w <- 4
+heatmap.h <- 4
+
+prep.out("figures/gram-matrix-L50-passweights.pdf", width=heatmap.w, height=heatmap.h)
+print.heatmap(compute.gram.matrix(diff.table.s50))
+dev.off();
+prep.out("figures/gram-matrix-L50-donotpassweights.pdf", width=heatmap.w, height=heatmap.h)
+print.heatmap(compute.gram.matrix(diff.table.s50.dnpw))
+dev.off();
+
+prep.out("figures/gram-matrix-L30-passweights.pdf", width=heatmap.w, height=heatmap.h)
+print.heatmap(compute.gram.matrix(diff.table.s30))
+dev.off();
+prep.out("figures/gram-matrix-L30-donotpassweights.pdf", width=heatmap.w, height=heatmap.h)
+print.heatmap(compute.gram.matrix(diff.table.s30.dnpw))
+dev.off();
+
+prep.out("figures/gram-matrix-L15-passweights.pdf", width=heatmap.w, height=heatmap.h)
+print.heatmap(compute.gram.matrix(diff.table.s15))
+dev.off();
+prep.out("figures/gram-matrix-L15-donotpassweights.pdf", width=heatmap.w, height=heatmap.h)
+print.heatmap(compute.gram.matrix(diff.table.s15.dnpw))
+dev.off();
 
 print.binary.heatmap(diff.table.s50)
 print.binary.heatmap(diff.table.s50.dnpw)
-
-prep.out("figures/gram-matrix-L50-passweights.pdf", width=6, height=6)
-print.heatmap(compute.gram.matrix(diff.table.s50))
-dev.off();
-prep.out("figures/gram-matrix-L50-donotpassweights.pdf", width=6, height=6)
-print.heatmap(compute.gram.matrix(diff.table.s50.dnpw))
-dev.off();
 
 print.binary.heatmap(diff.table.s15)
 print.binary.heatmap(diff.table.s15.dnpw)
 print.heatmap(compute.gram.matrix(diff.table.s15))
 print.heatmap(compute.gram.matrix(diff.table.s15.dnpw))
 
-print.heatmap(compute.gram.matrix(diff.table.s30))
-print.heatmap(compute.gram.matrix(diff.table.s30.dnpw))
 
 print.binary.heatmap(diff.table.s5)
 print.binary.heatmap(diff.table.s15)
