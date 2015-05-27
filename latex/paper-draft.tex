@@ -1,0 +1,1040 @@
+
+%% bare_conf.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[conference]{IEEEtran}
+% Add the compsoc option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
+% not currently provide for hyperlinked citations.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage[cmex10]{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[tight,footnotesize]{subfigure}
+% subfigure.sty was written by Steven Douglas Cochran. This package makes it
+% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
+% work, it is a good idea to load it with the tight package option to reduce
+% the amount of white space around the subfigures. subfigure.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at:
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+% subfigure.sty has been superceeded by subfig.sty.
+
+
+
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+% subfig.sty, also written by Steven Douglas Cochran, is the modern
+% replacement for subfigure.sty. However, subfig.sty requires and
+% automatically loads Axel Sommerfeldt's caption.sty which will override
+% IEEEtran.cls handling of captions and this will result in nonIEEE style
+% figure/table captions. To prevent this problem, be sure and preload
+% caption.sty with its "caption=false" package option. This is will preserve
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
+% (recommended due to many improvements over 1.2) of subfig.sty supports
+% the caption=false option directly:
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+% The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+% The latest version and documentation of caption.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Documentation is contained in the stfloats.sty comments as well as in the
+% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
+% does not allow \baselineskip to stretch. Authors submitting work to the
+% IEEE should note that IEEE rarely uses double column equations and
+% that authors should try to avoid such use. Do not be tempted to use the
+% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
+% not format its papers in such ways.
+
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{epsfig}
+\usepackage{fancybox}
+\usepackage{listings}
+%\usepackage{algo}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{adjustbox}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage[utf8]{inputenc}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Stream Mining Algorithms for Sensor Data Classification}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Yue Dong}
+\IEEEauthorblockA{Department of Mathematics \\ and Statistics\\
+University of Ottawa\\
+Ottawa, Ontario\\
+ydong029@uottawa.ca}
+\and
+\IEEEauthorblockN{Nathalie Japkowicz}
+\IEEEauthorblockA{School of Electrical Engineering\\ and Computer Science\\
+	University of Ottawa\\ Ottawa, Ontario\\ nat@site.uottawa.ca \\
+\\
+}
+\and
+\IEEEauthorblockN{Vladimir Pestov}
+\IEEEauthorblockA{Department of Mathematics \\ and Statistics\\
+	University of Ottawa\\
+	Ottawa, Ontario\\
+	vpest283@uottawa.ca 
+}}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+%\boldmath
+Learning from data streams is a research area of increasing importance \cite{evaluation_stream_mining}. Nowadays, several stream learning algorithms have been developed. Most of them learn decision tree models that continuously evolve over time, such as Very Fast Decision Trees (VFDT). However, it is not natural to use decision trees when learning has to be continuous --- which it frequently does due to concept drift --- because it is costly to adjust the tree's shape with new data. We thus propose two efficient incremental learning algorithms based on Neural networks, Sliding Mini-batch Neural Networks and Sliding Ensemble Neural Networks, which avoid this problem. The results of our experiment on the Dodgers Loop Sensor Dataset indicate that the performances of our algorithms converge to that of popular batch learners.
+
+%We use the Dodgers Loop Sensor Dataset from the UCI repository, where the task is to classify days on which a Dodgers baseball game occurred based on spikes in highway traffic near the stadium. 
+\end{abstract}
+
+
+% IEEEtran.cls defaults to using nonbold math in the Abstract.
+% This preserves the distinction between vectors and scalars. However,
+% if the conference you are submitting to favors bold math in the abstract,
+% then you can use LaTeX's standard command \boldmath at the very start
+% of the abstract to achieve this. Many IEEE journals/conferences frown on
+% math in the abstract anyway.
+
+% no keywords
+
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+% no \IEEEPARstart
+\label{sec:introduction}
+
+Learning from data streams is a research area of increasing importance \cite{evaluation_stream_mining}. Many datasets are no longer static, instead they continuously get updated, sometimes with millions or even billions of new records per day. In most cases, this data arrives in a stream or in streams, and if it is not processed immediately or stored, then it will be lost forever. Moreover, the data arrives so rapidly that it is usually not feasible to store it all. To extract useful knowledge from this tremendously valuable data, data stream mining became popular.
+
+Data stream mining is the process of extracting knowledge from an ordered sequence of data instances. One goal of data stream mining is to predict the class of new data instances based on previous instances in the data stream (classification). In many applications, data analysis can only be performed in one pass over the data, storing at most a small fraction of data points. Because of this, traditional batch learning algorithms are often unsuitable for data stream mining.  We thus need algorithms that can summarize information about prior data instances without keeping all of them in memory.  
+
+Several attempts have been made to modify the existing batch learners for data stream learning. According to Gama et al. \cite{evaluation_stream_mining}, most of them use decision trees ``that continuously evolve over time, taking into account that the environment is non-stationary and computational resources are limited.'' Examples of these algorithms are Very Fast Decision Trees (VFDT) \cite{VFDT} and Concept adapting Very Fast Decision Trees (CVFDT) \cite{CVFDT}.
+
+
+However, it is not natural to use decision trees for data stream mining, because they are very inefficient at dealing with concept drift -- an important issue in data stream mining. Decision trees work top-down in a way involving choosing the best attributes to split data at each level. To grow one level, decision tree algorithms need to scan the whole dataset once. Then, once the attributes are chosen, it is costly to change the shape of the trees or to change the nodes which have already been chosen. In the worst case scenario, if the new training data requires the root attribute to be changed, then all the nodes have to be chosen again. Since the characteristics of streaming data require the algorithm to constantly adjust to the new data, decision trees are not the best for data streams mining. 
+
+On the other hand, it is easy to see that neural networks (NN) are suitable for dealing with concept drift. In fact, they naturally handle well the task of incremental learning. A typical feed-forward neural network has one input layer, one output layer and several hidden layers. It learns by adjusting the weights between neurons in iterations. When continuous, high-volume, open-ended data streams come, it is necessary to pass the data in smaller groups (mini-batch learning) or one at a time (online learning) before updating the weights. In this manner, neural networks can learn by seeing each example only once and therefore do not require examples to be stored. 
+
+We build two models based on mini-batches of Neural Networks and sliding windows.
+The first model \emph{\textbf{S}liding \textbf{M}ini-batch  \textbf{N}eural \textbf{N}etworks} (SMNN) works by passing the final weights from the trained neural network on one sliding window to be the initial weights at the subsequent window. The second model \emph{\textbf{S}liding \textbf{E}nsemble  \textbf{N}eural \textbf{N}etwork} (SENN) works by training one neural network -- completely independently -- in each sliding window and taking a majority vote from all neural networks in the ensemble. 
+
+SMNN and SENN satisfy the desirable properties of learning systems for efficient data stream mining proposed by G. Hulten and P. Domingos \cite{Pedro}: they require small constant time per data example; they use fixed amount of main memory, irrespective of the total number of examples; they build models using a single scan over the training data; they generate anytime models independent from the order of the examples; and they have the ability to deal with concept drift. 
+
+The rest of this paper is organized as follows: in Section~\ref{sec:related-work}, we discuss the related work. In Section~\ref{sec:models}, we propose our methods for mining streaming data. In Section \ref{sec:experimental-design}, we discuss the data pre-processing and the experimental design. In Section~\ref{sec:experiments-and-results}, we present the results and compare them with the popular stream mining algorithms. In Section~\ref{sec:conclusion}, we conclude with remarks, discussion of the limitation of the experiment and suggestions for further work.
+
+%We then used both models to classify the Dodgers Loop Sensor Data Set with sliding windows.
+\section{Related work}
+\label{sec:related-work}
+In this section, we first review recent studies on decision trees based stream mining algorithms. Then we discuss recent studies on stream mining algorithms based on incremental neural networks and ensemble methods. 
+
+Stream data mining have become prevalent only in the last few decades; however, many literature already proposed different algorithms for stream data mining. Based on paper ``Introduction to stream: An Extensible Framework for Data Stream Clustering Research with R'' \cite{Rstream}, several classification methods suitable for data streams have been developed. Examples are Very Fast Decision Trees (VFDT) \cite{VFDT} based on Hoeffding trees, Online Information Network (OLIN)  \cite{last}, On-demand Classification \cite{Aggarwal04} based on micro-clusters found with the data-stream, and clustering algorithm CluStream \cite{ggarwal03}. There are some other methods we found online such as UFFT (ultra fast forest trees) \cite{gama} and CBDT (concept based decision tree) \cite{CBDT}.  
+
+As we can see, most of these algorithms are based on decision trees. However, the decision tree structure is unstable and it is costly to adjust the trees' shape with new data. We study VFDT in this paper as an illustration.
+
+The traditional decision tree classifier uses a divide-and-conquer approach. Typically, it needs to scan the whole dataset once to grow one level (excluding elements that have already reached a leaf at a lower level). After the scan, it finds the best attribute for splitting the data at each node by information gain or etc. To develop one decision tree, multiple scans of the whole dataset are required as the following figure indicates:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{figures/decision_tree}
+	\caption{An example of decision tree}
+	\label{fig:tree}
+\end{figure}
+
+As we can see, decision trees need to scan the whole dataset to grow one level (if no leaves have been formed yet). However, we cannot keep the entire dataset in memory for typical stream mining datasets. Therefore, traditional decision trees algorithms don't suit the job of stream mining. An algorithm that can learn \emph{incrementally} is required.
+
+The VFDT overcomes this limitation by building each node of the decision tree based on a small amount of data instances. According to Pedro \cite{VFDT}, the VFDT works as the following: ``given a stream of examples, the first ones will be used to choose the root test; once the root attribute is chosen, the succeeding examples will be passed down to the corresponding leaves and used to choose the appropriate attributes there, and so on recursively." An illustration of how VFDT is built is shown as Figure~\ref{fig:VFDT}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{figures/vfdt1} 
+	\caption{An illustration of VFDT}
+	\label{fig:VFDT}
+\end{figure}
+To decide how many examples (the size of $n$ in the above Figure) are necessary at each node, the Hoeffding bound is used. With the hoeffding bound, the VFDT can guarantee that the performance of Hoeffding tree converges to that of a batch learner decision tree \cite{VFDT}.
+
+The Hoeffding bound works as follows: consider $r$ as a real valued random variable, $n$ as the number of independent observations of $r$, and $R$ as the range of $r$, then the mean of $r$ is at least $r_{avg}-\epsilon$, with probability $1-\delta$: 
+$$P(\bar{r} \geq r_{avg}-\epsilon) = 1-\delta$$ where $$ \epsilon=\sqrt{\frac{R^2 \text{ln}(1/\delta)}{2n}}$$
+
+Although the performance of the VFDT converges to that of a batch learning tree, this data structure is not ``stable'' and only works when there is no concept drift. Subtle changes of the distribution of the data can cause the Hoeffding trees to fail. For example, in Figure~\ref{fig:VFDT}, suppose that the first $n$ examples choose Q1 as the root attribute, and we kept growing trees until we reach level 1000. Suddenly, the distribution of the data changed, choosing Q500 as the root attribute will give a much better prediction as choosing Q1. Then the tree has to rebuild again, but we can't retrieve the data passed in the stream, and we might not have enough data to rebuild another tree.
+
+To mitigate the issue of concept-drift, the same authors introduced Concept-adapting Very Fast Decision Trees (CVFDT), which adapt better to concept drift by monitoring changes of information gain for attributes and generating alternate subtrees when needed. However, it still can't solve the issue completely because the algorithm only monitors the leaves.
+
+%Similarly as VFDT and CVFDT, the papers \cite{RF1,RF2} propose an idea called Streaming Random Forests, which builds all the trees in the random forests at the same time. When new training data instances come, they will be routed down through each tree and change the shape of the tree, given that some criteria are satisfied. Their idea is very similar to VFDTs except that VFDTs grow one tree and the Streaming Random Forests algorithm grows multiple trees.
+
+Due to this disadvantage of decision tree based streaming mining algorithms, other researchers tried to stay away from having to re-grow decision trees at all by using incremental neural networks or ensemble methods.
+
+Many researchers present algorithms based on incremental neural networks, such as the paper \cite{NN1,NN2,NN3,NN4} which use incremental neural networks to training data one by one, and update the weight every time after scanning a data points. The shortcoming of this incremental neural networks is that the result is highly depends on the randomized initial weight since we only pass the data once. As we know, in batch learning, we pass the data in many epochs to avoid the effect of randomized initial weight. This is impossible in incremental neural networks since the data only got passed once, and we can't retrieve the lost data.
+
+Other researchers present methods based on ensemble classifiers, such as paper \cite{ensemble1} propose a general framework for mining concept-drifting data streams using weighted ensemble classifiers. The authors train an ensemble of classification models from sequential chunks of the data stream. However, building a classifier independently on each chunk can be inefficient since the data from each chunk are usually dependent. 
+
+Overall, most of stream mining algorithms involve some stream summarization. There are different ways to summarize data streams. Some methods will only keep a portion of the data in streams by using sampling. Such approaches including Reservoir Sampling \cite{vitter}, Concise Sampling \cite{Gibbons}, Chain Sampling \cite{Babcock}, Order Statistics with sampling approximate quantiles \cite{Manku}, and Sampling from a Moving Window, such as sliding windows. Another common method for processing the stream data is filtering, such as bloom Filters. The third common method is to construct a probabilistic summary of the data with hash functions and randomized algorithms to get approximation. 
+
+
+The models present in this paper overcome the disadvantages of incremental neural networks and ensemble classifiers.  Our method of SMNN learn the stream data in mini-batches with sliding windows. In each mini-batch, we run the algorithm in many epochs to reduce the effect of randomized initial weight. Moreover, we pass the weight from one mini-batch to the other mini-batch in order to obtain a better weight. The method of SENN trains multiple neural networks on sliding windows and uses plurality voting on the collection of neural networks to classify new data. Moreover, whenever this is no concept drift, we pass the weights learned from a sliding window to the subsequent sliding window and use them as the initial weights of the next neural network. By doing so, the training  is much faster as compared to using random weights every time. 
+
+\section{Sliding Neural Network Algorithms} 
+\label{sec:models}
+As discussed in Section \ref{sec:related-work}, each stream mining algorithm usually involves some summarization method. In both of our models,  we used the \emph{sliding windows} to summarize the data streams.
+
+Sampling from a Moving Window is to maintain a \emph{sliding window} of the most recently arrived data. In other words, the window has a fixed size $L$ and it works as a first in first out queue. we chose sliding windows to summarize and sample our data, as it is simple and quite appropriate for the task of classification. 
+
+Usually, the sliding window slides one data instances each time ($d=1$). However, it can be inappropriate if the streaming data arrives so rapidly and running algorithms on the sliding windows gets too slow. This problem can be easily fixed by increasing the length of the step for the sliding window ($d>1$).  
+
+\subsection{Sliding Mini-Batch Neural Networks}
+The first model we came up for mining a stream of data is the Sliding Mini-batch Neural Networks. As the name of Sliding Mini-batch Neural Networks indicated, what we did is to ``pass'' the weights of neural networks. In other words, we passed the final weights of a trained neural network on a sliding window and used them as the initial weights for training a neural network on the next sliding window.
+
+In our model, we combined the neural networks with sliding windows to train the data. Suppose the training dataset has the size $n$. Let us fix $L$ as the size of sliding windows and $d$ as the length of the step we slide each time, then we will have $(n-L+d)$ \textbf{mod} $d$ ($(n-L+d)\%d$) sliding windows in total. We train our model in the following steps: 
+\begin{enumerate}
+	\item We randomly initialize a weight matrix $\textbf{W}_1$
+	\item Train the neural network with random assigned weight on the $L$ data points in sliding window for up to $m$ epochs. Obtain $\textbf{W}_1$ which is the final weight matrix in the neural network.
+	\footnote{An epoch is a single pass through the entire training set} 
+	\item Train the neural network with $\textbf{W}_1$ as starting weights on the $L$ data points in sliding window 2 for $m$ epochs. Obtain $\textbf{W}_2$, the final weights of the neural network.\\
+	$\ldots$
+	\item Repeat until we reach the last sliding window and obtain the final weights $\textbf{W}_{(n-L+d)\%d}$.
+\end{enumerate}
+A graph of the Sliding Mini-batch Neural Networks is as follows:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{figures/CNN}
+	\caption{Sliding Mini-Batch Neural Networks}
+	\label{fig:minibatchANN}
+\end{figure}
+After passing all the data in sliding windows for training, the neural network model is ready for classification. The weight matrix $\textbf{W}_{(n-L+d)\%d}$ will be the weights of connections for the final neural network used to classify testing data.
+
+As we discussed in section \ref{sec:related-work}, SMNN optimizes the incremental neural networks algorithm since the initialized weight is adjusted constantly by the $L$ data instances in one sliding window. By feeding the data instances in one sliding window in many epochs, the order of feeding the data become less important. Therefore, the performance of SMNN is less random than incremental neural networks algorithm. Therefore, SMNN has smaller bias and variance in classification.
+
+
+\subsection{Sliding Ensemble Neural Networks}
+The second model we came up with is based on ensemble of Neural networks with sliding windows. As shown in paper \cite{ensemble1}, ensemble of classifiers usually works better than a single classifier in mining data streams. Therefore, we decided to build one neural network on each sliding window and take a majority vote. However, most of the time, the data instances in data stream are dependent. For example, the temperatures measured by the sensor are usually dependent on or correlated to last temperature measure.
+
+Because data instances in a data stream are usually dependent, it is nature to assume that the data instances in a sliding window are correlated to those in the previous sliding window.  Due to the dependency of data instances between different sliding windows, we thus concluded that it is inefficient to build a neural network on each sliding window independently.   
+
+We thus further improved the model by passing the weights from one neural network to the succeeding neural network when there is no concept drift. By doing so, the training time would be reduced when using ``good weights'' as the initialization weights.  Therefore, we came up with the second idea called \emph{Sliding Ensemble Neural Networks}. This model works as the following figure shows.
+
+%By passing the weight from one NN to another, the training time is shorted. But since we don't keeping pass the weight, the neural networks won't get overfitting. Moreover, take the majority votes from all neural networks can preserve some information from the early data in the stream.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{figures/SNN}
+	\caption{Sliding Ensemble Neural Networks}
+	\label{fig:SNN}
+\end{figure}
+
+One of the main requirements for a stream mining algorithm was \emph{constant memory}, which we have not explained in the previous sections yet. This is not an issue for the Sliding Mini-batch Neural Networks algorithm, since the memory used is constant and only depends on the number of weights of the neural network. The same weights matrix is reused when moving from one sliding window to the next, so memory use does not change.
+
+However, it is necessary to consider this issue for Sliding Ensemble Neural Networks, since it involves building a collection of classifiers. Of course, one cannot keep adding models (one per sliding windows) indefinitely.
+
+We fix the maximum number of classifiers that a collection will use as a constant, denoted by $K$. This number is generally much much lower than $n$, the total number of sliding windows.
+
+Models (neural networks) are added to the collection until its size reaches $K$. At this point, the collection is full and we need to determine a way to \emph{continue learning}, so that the algorithm can adapt to the changing data (in the case of concept drift). In order to do so, some models will have to be dropped from the collection so that new models can be included.
+
+We introduce two methods that we designed to pick the models.
+
+\begin{enumerate}
+	\item The first method is to use a first in first out (FIFO) queue. The oldest model in the collection is dropped to make room for the new model. This is the simplest method and it allows the learning algorithm to adapt very quickly to changing concepts. However, it is susceptible to develop bias quickly if presented with a lot of unrepresentative training data.
+	\item The second method involves random replacement with a non-uniform distribution. There are many non-uniform distributions that would do, the point is to make it such that models at the end of the collection rarely get replaced (long-term memory of the classifier), whereas models at the beginning of the collection frequently get replaced (ability to adapt quickly to change).
+	
+	For example, here is a valid way to do this. First, generate a random integer $r$ chosen according to the exponential distribution $\exp(\lambda = 0.1 K)$. Then, let $n = min(floor(r), K)$. We would then discard the model at position $n$ (counting from 0) in our ordered collection of models and replace it with a new model.
+\end{enumerate}
+
+%we have only been able to use and study the first method in the rest of the report.
+
+
+
+\section{Experimental Design}
+\label{sec:experimental-design}
+\subsection{Dataset}
+The dataset we choose for our experiment is the Dodgers Loop Sensor Data Set from the UCI repository \cite{dataset}. It comes with two file: Dodgers.data and Dodgers.events. Dodgers.data contains 50,400 instances with 3 attributes (date, time, count of cars). Dodgers.events contains 81 instances with 6 attributes representing  Date, Begin event time, End event time, Game attendance, Away team, and W/L score. 
+
+According to the dataset description \cite{dataset}, ``this loop sensor data was collected for the Glendale on ramp for the 101 North freeway in Los Angeles. It is close enough to the stadium to see unusual traffic after a Dodgers game, but not so close and heavily used by game traffic so that the signal for the extra traffic is overly obvious." 
+
+The observations of this dataset were taken over 25 weeks with count aggregates in every 5 minutes. Thus, 288 time data instances were generated per day with each data instance representing count of cars in a 5 minutes slot. The goal of this dataset is to predict the presence of a  game at Dodgers stadium. 
+
+\subsection{Dealing with Missing Values}
+\label{sec:missing-values}
+
+Our dataset has a large amount of missing values (2903 missing points in total out of 50400). We imputed the data by the following actions:
+\begin{itemize}
+	\item We discarded any day with more than 10 missing values in it.
+	\item We replaced missing values by 0 in those days containing 1--9 missing values.
+\end{itemize}
+After doing the above, we discarded 24 days and were left with a total of 151 days. 
+
+\subsection{Aggregating Data}
+
+Figure \ref{fig:typical-week} is the plot of a typical week of the Dodgers Loop Dataset. The blue lines indicate the beginning of games and the red lines indicate the end of games. 
+
+\begin{figure}[H]
+	\centering
+	\adjincludegraphics[width=\linewidth, center]{figures/typical-week}
+	\caption{A typical week for Dodgers Loop Dataset}
+	\label{fig:typical-week}
+\end{figure}
+
+Instead of predicting if individual data points fall within the window of a Dodgers game (between a blue line and a red line on the same day), we chose to work on the simpler task of predicting whether or not there was a Dodgers game held on any given day.
+Therefore, we aggregate the data into days containing 288 integers each (as there are 288 five-minute intervals in a day). We then labelled days on which a Dodgers game was held with ``1'' and a day without a game as ``0''. 
+
+A brief observation of the figure \ref{fig:typical-week} shows that there is always a spike in traffic around the time a game ends, compared to other days without a game. The difference is particularly easy to spot when comparing days of the same game, as it abstracts away variation in traffic during different days of the week. Therefore, a good classifier should be able to detect this pattern and give the correct prediction.
+
+\subsection{Features Selection and Dimensionality Reduction}
+Since neural networks can be fairly slow to train, we decided to reduce the number of attributes in our dataset. We averaged the data into 24 bins (1 bin per hour), as the following figure shows.
+
+\begin{figure}[H]
+	\adjincludegraphics[width=\linewidth, center]{figures/two-weeks-reduced-dimensionality-1-hour}
+	\caption{Two weeks of dimensionality reduced traffic data using 24 bins per day.}
+	\label{fig:two-weeks-reduced-dimensionality}
+\end{figure}
+As we can see from the above Figure, the spikes at the end of the game are preserved after the feature extraction.
+
+\subsection{Assumption and Experiment Design}
+For the purpose of demonstrating algorithms for data stream mining, we assumed that our dataset cannot fit in our computer's fast memory (RAM). Obviously, this is not the case for the Dodgers Loop Dataset, but this assumption allows us to design methods that would work on a computer with fixed memory $M$ and a dataset with size much larger than $M$.
+
+In both of our models, we combined the neural networks with sliding windows to train the data. For our dimension reduced model, we have 24 attributes and 2 classes. Therefore, our neural network has 24 nodes in the input layer and 2 nodes in the output layer, and we chose 4 nodes in the hidden layer. 
+
+Throughout the experiment, there are many constants. For example, the training and testing datasets are always kept constant. We list below how we chose all the relevant parameters when running SMNN and SENN. 
+\begin{itemize}
+	\item We discarded the bad rows as described in subsection~\ref{sec:missing-values};
+	\item We aggregated the data into 24 bins per day. Hence, each example has 24 numeric features;
+	\item The training dataset is the first 70 days after discarding bad rows;
+	\item The testing dataset is the remaining 89 days;
+	\item We used a value of $K=20$ for the maximum number of models per collection;
+	\item We used various values of $L$ for the size of each sliding window, described in each experiment;
+	\item The neural networks are trained with 200 maximum iterations (unless otherwise specified);
+	\item The neural networks have 4 neurons in the hidden layer.
+\end{itemize}
+
+In order to provide a baseline comparison for our stream mining learning algorithms, we trained various popular classifiers on the Dodgers Dataset with the first 70 days for training. This dataset after data aggregation is small and becomes a toy model. We thus can easily train the popular batch learning classifiers on it. However, this is useful because it gives us an idea of what kind of results a data stream-based classifier could hope to achieve.
+
+\section{Results}
+\label{sec:experiments-and-results}
+
+\subsection{Results of Benchmark Classifiers}
+All the parameters in the batch learners are optimally chosen from experience and experiment: the random forests classifier was built with 100 trees; the $k$-nearest neighbors classifier used $k=3$; the neural network was built with 4 hidden layers, 300 iterations and a decay of 0.01.
+
+\begin{figure}[H]
+	\centering
+	\adjincludegraphics[width=1.0\linewidth, center]{figures/results-benchmark}
+	\caption{Benchmark of popular classifiers trained on the full training set.}
+	\label{fig:benchmark}
+\end{figure}
+
+Notice that $k$-NN performs extremely well on this dataset, with over 96\% test accuracy. The other classifiers (excluding Naive Bayes, the coin flip and the constant choices) all hover around 85\% to 86\%, which suggests that an accuracy of 85\% would be a good objective to try to match or get as close as possible to.
+
+\subsection{Results of VFDT and incremental Neural Networks}
+need to perform the experiment and obtain the result for comparison.
+\subsection{Results of Sliding Mini-Batch Neural Networks}
+
+We looked at the performance of the Sliding Mini-batch Neural Networks as the size of the sliding windows varies.
+\begin{figure}[H]
+	\centering
+	\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-minibatch}
+	\caption{Accuracy of Sliding Mini-Batch Neural Networks classifier on training and testing datasets.}
+	\label{fig:benchmark}
+\end{figure}
+The performance is poor with smaller window sizes since the training sets tend to be poorly balanced. The test accuracy with $L > 20$ is on average 85.5\%. Similarly, the training accuracy for $L > 20$ is on average 98.6\%.
+
+
+
+\subsection{Results of Sliding Ensemble Neural Networks}
+
+Next, we consider our second method for classification of streaming data: the Sliding Ensemble Neural Networks method.
+Again, all the parameters are the same as described in Experimental Design. The size of the hidden layer is 4, the maximum number of epochs is 50 and the decay is 0.1. We vary $L$ from 5 to 50.
+
+\begin{figure}[H]
+	\centering
+	\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-ensemble}
+	\caption{Accuracy of ensemble of neural networks on training and testing datasets.}
+	\label{fig:results-nnet-ensemble}
+\end{figure}
+
+We get 86.0\% test accuracy and 98.5\% training accuracy. This is somewhat surprising for us, as the algorithm appears to overfit, yet the test accuracy is very good.
+
+In the following experiments, we measured the time it took to train a neural network. We compare the Sliding Mini-Batch Neural Networks, where the weights are passed along from one sliding window to the next, to the Sliding Ensemble Neural Networks method, where neural networks are trained independently.
+
+\begin{figure}[H]
+	\centering
+	\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-ens-timing}
+	\caption{Timing required to train an ensemble of neural networks if weights are passed between subsequent neural networks or if they are not passed.}
+	\label{fig:results-nnet-ens-timing}
+\end{figure}
+
+On average it takes 35\% more time to train a neural network from scratch than it does to train it when its initial weights are already ``good'' than when they are random.
+
+Next, we looked at the accuracy of the two methods, based on the number of maximum training iterations used per sliding window. See the figure below for the results.
+\begin{figure}[H]
+	\centering
+	\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-ens-maxit}
+	\caption{Comparison of Sliding Ensemble Neural Networks trained with passing weights between subsequent neural networks and without passing them.}
+	\label{fig:benchmark}
+\end{figure}
+
+Without a surprise, we find that Sliding Mini-Batch Neural Networks require a lot less training iterations to reach their maximal accuracy (this makes sense, since the weights are carrier from one neural network to the next). What is really interesting, however, is that the model where the neural networks are trained independently without passing weights seem to perform slightly better when the window size is big.
+
+There could be many reasons for this:
+\begin{itemize}
+	\item Letting the initial weight matrix be random every time might help some of the neural networks reach a better global minimum, whereas passing the weights along might leave the neural networks ``trapped'' in a local minimum.
+	\item Using random initial weights might simply allow the neural networks to find more varied solutions, which helps with generalization and avoiding overfitting when taking votes over those neural networks. The Sliding Mini-batch Neural Networks might be ``too similar'' and all make the same overfitting errors.
+\end{itemize}
+
+We studied this problem in more details. We attempted to vary the size of the hidden layers of the Sliding Mini-batch Neural Networks. We were hoping that reducing the model's complexity might help prevent overfitting. We also reduced the maximum number of iterations during training to aid in reducing overfitting as well. In either cases, the performance did not get better, but only worse.
+
+Therefore, this gives some support to the latter theory that the neural nets simply get ``stuck'' in local minima.
+
+\subsection{Comparison} 
+
+Finally, we compare the performance of both models in the following figure:
+\begin{figure}[H]
+	\centering
+	\adjincludegraphics[width=1\linewidth, center]{figures/results-all-methods-compare}
+	\caption{Comparison of the test accuracy of the 3 streaming data classification methods.}
+	\label{fig:results-trees-ensemble}
+\end{figure}
+It seems that the Sliding Ensemble Neural Networks (pass or not pass the weight) performs the best. Especially, when the sliding window size is small, Sliding Ensemble Neural Networks outperforms  the other models significantly, and the performance of SENN converges to that of batch learners. Therefore, this model has a potential to generalize to massive stream datasets with only a small fixed memory required for the computation, while the result is converged to that of batch learners.
+
+The following Table summarize the accuracy of the two models from window size=23 to 50 with step=3.
+% latex table generated in R 3.1.2 by xtable 1.7-4 package
+% Fri Mar 27 09:57:27 2015
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccccc}
+		\hline
+		Size of&  Sliding& Sliding Ensemble& Sliding Ensemble\\
+		sliding&  Mini-batch& Neural Networks& Neural Networks\\
+		windows&  Neural Networks& & (no weights pass)\\
+		\hline
+		23 &  0.840 & 0.864 & 0.877 \\ 
+		26 &  0.827 & 0.864 & 0.864 \\ 
+		29 &  0.864 & 0.864 & 0.914 \\ 
+		32 &  0.889 & 0.864 & 0.889 \\ 
+		35 &  0.877 & 0.877 & 0.914 \\ 
+		38 &  0.889 & 0.877 & 0.889 \\ 
+		41 &  0.877 & 0.852 & 0.914 \\ 
+		44 &  0.827 & 0.840 & 0.914 \\ 
+		47 &  0.852 & 0.840 & 0.889 \\ 
+		50 &  0.802 & 0.840 & 0.926 \\ 
+		\hline
+		\textbf{Average} & \textbf{0.855} &\textbf{0.860} &\textbf{0.897} \\
+		\hline
+	\end{tabular}
+	\caption{Summary of test accuracy for our three models}
+\end{table}
+
+The Sliding Ensemble Neural Networks in which weights were \emph{not} passed between sliding windows performed best on our dataset, followed by Sliding Ensemble Neural Networks with passing weights, then finally Sliding Mini-batch Neural Networks.
+
+To see if these differences are statistically significant, we performed a Friedman test on the results of Table 1. The test results return $\chi^2_F= 19.7191$, df = 3, p-value = 0.0001941. For a two tailed test at the 0.05 level of significance, the critical value is 7.8. Since the $\chi_F^2 >7.8$, we reject the null hypothesis that all classifiers perform the same on all 10 domains (we treat each case with a different size of sliding window as one domain).
+
+To pinpoint where the difference lies, we applied the Nemenyi test and obtained $q_{\text{SMNN-SENNp}}= 1.732051$,  $q_{\text{SMNN-SENNnp}}=25.114737$, $q_{\text{SENNp-SENNnp}}=23.382686$.
+Check the table of $q$ test, we obtain that $q_\alpha=4.02$ for $\alpha=0.05$ and $df = (n-1)(k-1) = 9 \times 3 = 27$ for the Tukey test. For the Nemenyi test, we divide this value by $\sqrt{2}$. This yields $q_\alpha = 2.84$. Therefore, the null hypothesis can be rejected in all cases except the case of $q_{\text{SMNN-SENNp}}= 1.732051$, the comparison of Sliding Mini-batch Neural Networks and Sliding Ensemble Neural Networks with passing weight.
+
+
+Notice that both the Sliding Ensemble Neural Networks and the Sliding Mini-batch Neural Networks methods are algorithms in which the neural network connection weights are being passed from one neural net to the other (i.e. the final weight matrix of one neural network is used as initialization weights for the next neural network to be trained). Those two methods perform fairly similarly and they are both worse than the method which involves \emph{not} passing the weights. We attribute this difference due to what is probably getting stuck at a local minimum.
+
+Indeed, if good weights are reused, it makes it  difficult or unlikely for the optimization algorithms to climb outside of the local minimum and find a better global minimum. Moreover, since the Sliding Ensemble Neural Networks method is an ensemble method, it benefits from having models that are as distinct and uncorrelated as possible.
+
+\section{Conclusion and Further Work}
+\label{sec:conclusion}
+
+In this paper, we tested out two models: Sliding Mini-batch Neural Networks,  and Sliding Ensemble Neural Networks. They were both trained on sliding windows, which allows learning on labelled data of arbitrary sizes, as well as learning in an incremental fashion on continuous data that may even change with time (concept drift). We used a fairly small dataset called the Dodger Loop Sensor Data set, but the methods were developed with generalization to datasets of arbitrary size as the goal.
+
+The results indicate that the performances of the two models we proposed are all converging to that of popular batch learners, with Sliding Ensemble Neural Networks performed better than Sliding Mini-Batch Neural Networks. We believed that the relatively worse performance of  Sliding Mini-Batch Neural Networks came from the overfitting of the data or getting ``trapped'' in a local minimum. We tried reducing the number of nodes in the hidden layers and reducing the training iterations, but the result didn't improve that much. One future work can be done is to investigate on this overfitting and resolve the issue. In addition to using ensemble methods, a few other possible solutions could be to use an incremental version of PCA to reduce the number of features to make the input layer smaller.
+
+We also noticed that there seems to be a definite relationship between the size of sliding windows $L$ and the test accuracy of the classifiers. It is clear that for very small $L$, the sliding windows contain too few examples to be representative of the actual data and are frequently unbalanced, which explains the poor performance. However, for larger values of $L$, it is not clear what the nature of the relationship is and more research is required.
+
+There are other limitations in this project which could be improved in the future work. For example, the time spent to run the algorithms was mostly ignored in this project. However, it is a very important aspect in stream data mining. Stream data mining requires algorithms that can process the data extremely fast, otherwise valuable data will simply have to be discarded. Also, neural networks are usually slow to train. Therefore, further work would involve tracking time spending on each algorithm to compare how fast they are -- not only during training, but especially when making prediction for new data.
+
+
+One key property of   Sliding Mini-Batch Neural Networks and Sliding Ensemble Neural Networks is that they can be trained incrementally. This is especially important in data stream mining as the nature of the data sources is such that not only is incremental learning necessary due to technical reasons such as the size of the training set, but also the continuous stream of data is generally subject to slow changes over time, which requires the learning algorithm to adapt. This is called \emph{concept drift} and our algorithms are able to adapt to handle such changes, as the collection of trees or neural networks keeps getting replaced as new training data comes along. Further work is required however to quantify how well our algorithms handle concept drift compared to other algorithms.
+
+A limitation in our project was that after data pre-processing, the dataset we obtained was fairly small. Therefore, we developed and tested our methods on a toy example. However, all the methods we used should in theory generalize to a massive dataset. On such datasets, if the data streams arrive very rapidly, the sliding windows could be chosen more sparsely by using larger steps between sliding windows. We used step size of 1 in our experiments, but in theory the step size could be as large as $L$, the size of sliding windows. We expect that this would have a minimal impact on the classification performance of our algorithms, while providing a massive speed-up.
+
+Another interesting idea we would like to investigate is the use of autoencoders \cite{Hinton1989} for anomaly detection in streaming data. For a lot of streaming data such as surveillance streams, it is very difficult to obtain the instances of the ``anomaly''  because they can be very rare. For example, consider the idea of a smart watch that monitors heart activity in order to detect heart attacks and automatically contact emergency response units. It might be very hard to train a classifier to recognize such event, since we most likely do not have the data concerning the ``anomalous class'' of heart attacks. Moreover, this system needs to have the ability to distinguish non-life critical noise such as the person starting to run. 
+
+We feel that traditional supervised learning algorithms for classification will have a hard time to perform well in this scenario. However, an antoencoder can learn from only one class \cite{Japkowicz95}.  An unsupervised learning method would be more suitable for such tasks \cite{Japkowicz01}. Moreover, autoencoders can handle streaming data since they can learn incrementally. This would help deal with concept drift, which is necessary in this task because a person's regular heart activity will change over the years. For example, their resting heart rate will go up or down over the years depending on their health and levels of exercise.
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation Results}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command, the
+% \label for the overall figure must come after \caption.
+% \hfil must be used as a separator to get equal spacing.
+% The subfigure.sty package works much the same way, except \subfigure is
+% used instead of \subfloat.
+%
+%\begin{figure*}[!t]
+%\centerline{\subfloat[Case I]\includegraphics[width=2.5in]{subfigcase1}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{subfigcase2}%
+%\label{fig_second_case}}}
+%\caption{Simulation results}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+
+
+% An example of a floating table. Note that, for IEEE style tables, the 
+% \caption command should come BEFORE the table. Table text will default to
+% \footnotesize as IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that IEEE does not put floats in the very first column - or typically
+% anywhere on the first page for that matter. Also, in-text middle ("here")
+% positioning is not used. Most IEEE journals/conferences use top floats
+% exclusively. Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the \fnbelowfloat
+% command of the stfloats package.
+
+
+% use section* for acknowledgement
+%\section*{Acknowledgment}
+
+
+%The authors would like to thank...
+
+
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+% This includes all references from the BibTeX file in the bibliography
+\nocite{*}
+
+
+\begin{thebibliography}{9}
+	\bibitem{evaluation_stream_mining}
+	Gama, João, Raquel Sebastião, and Pedro Pereira  Rodrigues. "Issues in evaluation of stream learning algorithms." Proceedings of the 15th ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2009.
+	
+	\bibitem{VFDT}
+	Domingos, Pedro, and Geoff Hulten. "Mining high-speed data streams." Proceedings of the sixth ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2000.
+	
+	\bibitem{CVFDT}
+	Hulten, Geoff, Laurie Spencer, and Pedro Domingos. "Mining time-changing data streams." Proceedings of the seventh ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2001.
+	
+	\bibitem{Pedro}
+	Geoff Hulten and Pedro Domingos. Catching up with the data: research issues in mining data streams. \textit{Proc. of Workshop on Research issues in Data Mining and Knowledge Discovery}, 2001.
+	
+	\bibitem{NN1}
+	Polikar, Robi, et al. "Learn++: An incremental learning algorithm for supervised neural networks." Systems, Man, and Cybernetics, Part C: Applications and Reviews, IEEE Transactions on 31.4 (2001): 497-508.
+	
+	\bibitem{NN2}
+	Carpenter, Gail A., et al. "Fuzzy ARTMAP: A neural network architecture for incremental supervised learning of analog multidimensional maps." Neural Networks, IEEE Transactions on 3.5 (1992): 698-713.
+	
+	\bibitem{NN3}
+	Furao, Shen, Tomotaka Ogura, and Osamu Hasegawa. "An enhanced self-organizing incremental neural network for online unsupervised learning." Neural Networks 20.8 (2007): 893-903.
+	
+	\bibitem{NN4}
+	Shen, Furao, and Osamu Hasegawa. "Self-organizing incremental neural network and its application." Artificial Neural Networks–ICANN 2010. Springer Berlin Heidelberg, 2010. 535-540.
+	
+	\bibitem{RF1}
+	Abdulsalam, Hanady, David B. Skillicorn, and Patrick Martin. "Streaming random forests." Database Engineering and Applications Symposium, 2007. IDEAS 2007. 11th International. IEEE, 2007.
+	
+	\bibitem{RF2}
+	Abdulsalam, Hanady, David B. Skillicorn, and Patrick Martin. "Classifying evolving data streams using dynamic streaming random forests." Database and Expert Systems Applications. Springer Berlin Heidelberg, 2008.
+	
+	\bibitem{ensemble1}
+	Wang, Haixun, et al. "Mining concept-drifting data streams using ensemble classifiers." Proceedings of the ninth ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2003.
+	
+	\bibitem{dataset}
+	"Adaptive event detection with time-varying Poisson processes"
+	A. Ihler, J. Hutchins, and P. Smyth
+	Proceedings of the 12th ACM SIGKDD Conference (KDD-06), August 2006.
+	
+	\bibitem{feature.engineering}
+	Tomasz Malisiewicz, cofounder vision.ai. \url{http://www.meetup.com/Data-Mining/events/220316350/}
+	
+	\bibitem{Rstream}
+	Hahsler, Michael, Matthew Bolanos, and John Forrest. "Introduction to stream: An Extensible Framework for Data Stream Clustering Research with R."
+	
+	\bibitem{last}
+	Last M (2002). “Online Classification of Nonstationary Data Streams.” Intelligent Data
+	Analysis, 6, 129–147. ISSN 1088-467X.
+	
+	\bibitem{Aggarwal04}
+	Aggarwal CC, Han J, Wang J, Yu PS (2004). “On Demand Classification of Data Streams.” In
+	Proceedings of the tenth ACM SIGKDD international conference on Knowledge discovery
+	and data mining, KDD ’04, pp. 503–508. ACM, New York, NY, USA.
+	
+	\bibitem{ggarwal03}
+	Aggarwal CC, Han J, Wang J, Yu PS (2003). “A Framework for Clustering Evolving Data
+	Streams.” In Proceedings of the International Conference on Very Large Data Bases (VLDB
+	’03), pp. 81–92.
+	
+	\bibitem{gama}
+	João Gama, Pedro Medas, and Pedro Rodrigues. "Learning decision trees from dynamic data streams." Proceedings of the 2005 ACM symposium on Applied computing. ACM, 2005.
+	
+	\bibitem{CBDT}
+	Hoeglinger, Stefan, Russel Pears, and Yun Sing Koh. "Cbdt: A concept based approach to data stream mining." Advances in Knowledge Discovery and Data Mining. Springer Berlin Heidelberg, 2009. 1006-1012.
+	
+	\bibitem{vitter}
+	Vitter, Jeffrey S. "Random sampling with a reservoir." ACM Transactions on Mathematical Software (TOMS) 11.1 (1985): 37-57.
+	
+	\bibitem{Gibbons}
+	Gibbons, Phillip B., and Yossi Matias. "New sampling-based summary statistics for improving approximate query answers." ACM SIGMOD Record. Vol. 27. No. 2. ACM, 1998.
+	
+	\bibitem{Babcock}
+	Babcock, Brian, et al. "Models and issues in data stream systems." Proceedings of the twenty-first ACM SIGMOD-SIGACT-SIGART symposium on Principles of database systems. ACM, 2002.
+	
+	\bibitem{Manku}
+	Manku, Gurmeet Singh, Sridhar Rajagopalan, and Bruce G. Lindsay. "Random sampling techniques for space efficient online computation of order statistics of large datasets." ACM SIGMOD Record. Vol. 28. No. 2. ACM, 1999.
+	
+	
+	\bibitem{Hinton1989}
+	Hinton,G.. Connectionist learning procedures. \textit{Artificial Intelligence  40:185-234}. 1989. 
+	
+	\bibitem{Japkowicz95}
+	Japkowicz, Nathalie, Catherine Myers, and Mark Gluck. "A novelty detection approach to classification." IJCAI. 1995.
+	
+	\bibitem{Japkowicz01}
+	Nathalie Japkowicz. "Supervised Versus Unsupervised Binary-Learning by Feedforward Neural Networks." Machine Learning. v:42, n:1/2, pp:97-122. 2001.
+	
+	%\bibitem{autoencoder_R}
+	%Eugene Dubossarsky, et al. Package ‘autoencoder’. CRAN. 2014.
+	
+	%\bibitem{VFML}
+	%Geoff Hulten and Pedro Domingos. VFML: a toolkit
+	%for mining high-speed time-changing data streams.
+	%\url{http://www.cs.washington.edu/dm/vfml/}. 2003.
+	
+	%\bibitem{MOA}
+	%Richard Kirkby. Improving Hoeffding Trees. PhD thesis, University of Waikato - New Zealand, 2008.
+	
+	%\bibitem{Papid_Mining}
+	%I. Mierswa, M. Wurst, R. Klinkenberg, M. Scholz, and T. Euler. Yale: Rapid prototyping for complex data mining tasks. \textit{ACM SIGKDD Int. Conf. on
+	%Knowledge Discovery and Data Mining}, pages 935-940. ACM Press, 2006.
+	
+	
+	%\bibitem{Bengio09}
+	%Bengio. Learning deep architectures for AI. \textit{ Foundations and Trends in Machine Learning 1(2)}, pages 1-127.
+	
+	%\bibitem{Hinton}
+	%G.E. Hinton and R.R. Salakhutdinov. Reducing the Dimensionality of Data with Neural Networks. \textit{Science}, 28 July 2006, Vol. 313. no. 5786, pp. 504 - 507.
+	
+	%\bibitem{drift}
+	%Maayan Harel and Shie Mannor and Ran El-yaniv and Koby Crammer. Concept Drift Detection Through Resampling. JMLR Workshop and Conference Proceedings. 2014.
+	
+	%\bibitem{google-founders}
+	%Larry Page. \textit{Google 2013 Founders` Letter} \url{http://investor.google.com/corporate/2013/founders-letter.html}
+	
+	%\bibitem{online_autoencoder}
+	%Online Incremental Feature Learning with Denoising Autoencoders
+	
+	%\bibitem{encoder}
+	%Effcient online learning of a non-negative sparse autoencoder
+	
+	%\bibitem{encoder1}
+	%Incremental Feature Construction for Deep 
+	%Learning Using Sparse Auto-Encoder 
+	
+\end{thebibliography}
+
+
+
+
+
+% that's all folks
+\end{document}
+
+
