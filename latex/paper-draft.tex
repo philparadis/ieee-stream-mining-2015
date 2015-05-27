@@ -566,11 +566,12 @@
 		
 		\begin{enumerate}
 			\item The first method is to use a first in first out (FIFO) queue. The oldest model in the collection is dropped to make room for the new model. This is the simplest method and it allows the learning algorithm to adapt very quickly to changing concepts. However, it is susceptible to develop bias quickly if presented with a lot of unrepresentative training data.
+			
 			\item The second method involves random replacement with a non-uniform distribution. There are many non-uniform distributions that would do, the point is to make it such that models at the end of the collection rarely get replaced (long-term memory of the classifier), whereas models at the beginning of the collection frequently get replaced (ability to adapt quickly to change).
 			
 			For example, here is a valid way to do this. First, generate a random integer $r$ chosen according to the exponential distribution $\exp(\lambda = 0.1 K)$. Then, let $n = min(floor(r), K)$. We would then discard the model at position $n$ (counting from 0) in our ordered collection of models and replace it with a new model.
 			
-			\item The third method is to use error correlation rate to pick up models in order to achieve the diversity in the ensemble. We want to replace those models who give the errors on the same data points. To decide how two models are diverse from each other, we decide to compute the error correlation of two models on a testing dataset. For example, we use all data in one sliding window as the testing data.  compute the e 
+			\item The third method is to use error correlation rate to pick up models in order to achieve the diversity in the ensemble. We want to replace those models who give the errors on the same data points. To decide how two models are diverse from each other, we compute the error correlation of all models on a testing dataset. For example, we use all data in one sliding window as the testing data. For each model, we print all errors made by this model. Therefore, we obtain a set of error vectors $X_1, \ldots, X_m \in \{0,1\}^n$, where $m$ is the number of models in the ensemble and $n$ is the number of data instances in the testing set. The attributes of the vectors are either 1 or 0, with 1 indicating a classification error and 0 indicating success. In order to measure the degree of diversity among the models, we then compute the pairwise dot product of all error vectors. In other words, we construct the $m \times m$ matrix $A = (a_{i,j})$ where $a_{i,j} = X_i \cdot X_j$. Small values of $A$ are thus considered ideal, as they indicate strong pairwise independence between models, whereas large values of $A$ are undesirable. Note that $A$ is the Gram matrix of $X_1, \ldots, X_m$. Models who tends to make the mistakes on the same data are undesirable in an ensemble \cite{Dietterich} and they can readily be identified from the matrix $A$.
 		\end{enumerate}
 		
 		%we have only been able to use and study the first method in the rest of the report.
@@ -769,30 +770,6 @@
 		Notice that both the Sliding Ensemble Neural Networks and the Sliding Mini-batch Neural Networks methods are algorithms in which the neural network connection weights are being passed from one neural net to the other (i.e. the final weight matrix of one neural network is used as initialization weights for the next neural network to be trained). Those two methods perform fairly similarly and they are both worse than the method which involves \emph{not} passing the weights. We attribute this difference due to what is probably getting stuck at a local minimum.
 		
 		Indeed, if good weights are reused, it makes it  difficult or unlikely for the optimization algorithms to climb outside of the local minimum and find a better global minimum. Moreover, since the Sliding Ensemble Neural Networks method is an ensemble method, it benefits from having models that are as distinct and uncorrelated as possible.
-		
-		\section{Streaming Context}
-		
-		NOTE: We might try to merge this with the previous sections so that it looks "seamless", but I decided to write it separately since it is simpler and less confusing.
-		
-		NOTE: Need to do a section with and withotu concept drift.
-		
-		In the previous section, we constructed the SMNN and the SENN algorithms in the batch learning context. By this, we mean that in this context, the entire dataset is available, it is practical to hold it entirely in memory and the entire dataset is partitioned into mutually exclusive training and testing sets.
-		
-		However, SMNN and SENN are stream mining algorithms -- the above was \emph{the first step} in the construction. In this section, we use much larger datasets from real-world sources and show SMNN and SENN work in the stream mining context.
-		
-		\subsection{Training and testing sets in the streaming context}
-		
-		In the stream mining context, we make the following assumptions:
-		\begin{enumerate}
-			\item A fraction $\alpha \geq 0$ of the dataset is static and can be pre-loaded, call it $X_\alpha$. This subset can be used for pre-training ()whenever $\alpha > 0$).
-			\item Rows that are outside o
-			\item A fraction $\beta \geq \alpha$ of the dataset, called $X_\beta$, is labeled ($\beta = 1$ is possible).
-			\item The rows in $X_\alpha$ ...
-			\item The rows in $X_\beta$ can only be accessed in a single pass (to be more precise, the sliding windows --- which contain a set of rows in $X_\beta$ --- can only be accessed in a single pass)
-			\item The memory available is limited such that it is only possible to hold at most a fraction $\gamma \ll 1$ of the dataset in memory (in practice, the value of $\gamma$ depends entirely on
-			specifics of the model, including scaling coefficients and constant memory used -- but we ignore such matters for simplicity's sake).
-		\end{enumerate}
-		Moreover, we assume that the dataset is \emph{ordered}, such that all rows belong to the fraction $\alpha$ described in 1) appear at the beginning of the dataset, before any other row which does not belong to 1). Similarly, the fraction $\beta$ of rows described by 2) appear at the beginning of the dataset.
 		
 		
 		\section{Conclusion and Further Work}
