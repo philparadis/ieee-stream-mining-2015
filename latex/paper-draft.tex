@@ -537,6 +537,7 @@
 		
 		
 		\subsection{Sliding Ensemble Neural Networks}
+		\label{sec:senn}
 		The second model we came up with is based on ensemble of Neural networks with sliding windows. As shown in paper \cite{ensemble1}, ensemble of classifiers usually works better than a single classifier in mining data streams. Therefore, we decided to build one neural network on each sliding window and take a majority vote. However, most of the time, the data instances in data stream are dependent. For example, the temperatures measured by the sensor are usually dependent on or correlated to last temperature measure.
 		
 		Because data instances in a data stream are usually dependent, it is nature to assume that the data instances in a sliding window are correlated to those in the previous sliding window.  Due to the dependency of data instances between different sliding windows, we thus concluded that it is inefficient to build a neural network on each sliding window independently.   
@@ -552,9 +553,9 @@
 			\label{fig:SNN}
 		\end{figure}
 		
-		The building of this model is counter-intuitive because for an ensemble of classifiers to be more accurate than any of the individual members, it is necessary and sufficient that the classifiers are accurate and diverse \cite{Hansen}. An accurate classifier is one that has an error rate of better than 50\%. Two classifiers are diverse if they don't make errors on the same new data points \cite{Dietterich}. We therefore believe that there is a trade-off between the accuracy and diversity in the ensemble. For our model, by passing the weight when there is no concept drift, we eventually trained the classifier on more data points which increases the accuracy of a single classifier in the ensemble. On the other hand, since the classifiers are built from similar data with related weight, we lose the diversity.  
+		The building of this model is counter-intuitive because for an ensemble of classifiers to be more accurate than any of the individual members, it is necessary and sufficient that the classifiers are accurate and diverse \cite{Hansen}. An accurate classifier is one that has an error rate of better than 50\%. Two classifiers are diverse if they don't make errors on the same new data points \cite{Dietterich}. We therefore believe that there is a tradeoff between accuracy of individual models and diversity of the ensemble as a whole. In particular, in the case where the weights matrix is passed between subsequent neural network models, it can be considered equivalent to having trained the neural network on more data points, which increases the accuracy of a single classifier in the ensemble. On the other hand, since the classifiers are built from similar data with related weight we lose the diversity.  
 		
-		However, the diversity issue can be solved by the models picking. The models picking means we only pick a constant $K$ classifiers to be in the ensemble. With the principle that we only pick classifiers who are diverse enough to each other, we can have the classifiers in the ensemble more accurate and diverse. 
+		However, the diversity issue can be solved by careful models selection. Since the size of ensembles is fixed, some The models picking means we only pick a constant $K$ classifiers to be in the ensemble. With the principle that we only pick classifiers who are diverse enough to each other, we can have the classifiers in the ensemble more accurate and diverse.
 		
 		The models picking also will help to reduce the memory need to run the algorithm. One of the main requirements for a stream mining algorithm was \emph{constant memory}. This is not an issue for the Sliding Mini-batch Neural Networks algorithm, since the memory used is constant and only depends on the number of weights of the neural network. The same weights matrix is reused when moving from one sliding window to the next, so memory use does not change.
 		
@@ -562,6 +563,24 @@
 		
 		Models (neural networks) are added to the collection until its size reaches $K$. At this point, the collection is full and we need to determine a way to \emph{continue learning}, so that the algorithm can adapt to the changing data (in the case of concept drift). In order to do so, some models will have to be dropped from the collection so that new models can be included. The principle of models picking is that the models in the ensemble are diverse in order to give better prediction. 
 		
+		\subsection{Model picking methods}
+		
+		This section describes what happens once the ensemble has reached its maximum
+		size $C$. Recall that since memory is limited, we cannot keep adding models indefinitely.
+		However, since the ensemble may not be optimal yet at the time that it reaches size $C$, we do
+		not want to discard all further models either. Indeed, we want the models of the ensemble to be as \emph{diverse} as possible and this require ongoing evaluation of potential new models.
+		
+		Moreover, in the case where the streaming datasets we are working with admits concept drifting, it is absolutely critical	to have a good model picking method that will be able to keep up with the concept drift.
+		
+		* The current model picking methods are:
+		
+		\begin{enumerate}
+			\item FIFO - First In, First Out
+			\item RRGD - Random Replacement with Geometric Distribution
+			\item MDS  - Maximal Diversity Subset
+		\end{enumerate}
+
+		* Moreover, it has all the usual underlying parameters of neural networks:
 		We introduce three methods that we designed to pick the models.
 		
 		\begin{enumerate}
@@ -769,6 +788,10 @@
 		Notice that both the Sliding Ensemble Neural Networks and the Sliding Mini-batch Neural Networks methods are algorithms in which the neural network connection weights are being passed from one neural net to the other (i.e. the final weight matrix of one neural network is used as initialization weights for the next neural network to be trained). Those two methods perform fairly similarly and they are both worse than the method which involves \emph{not} passing the weights. We attribute this difference due to what is probably getting stuck at a local minimum.
 		
 		Indeed, if good weights are reused, it makes it  difficult or unlikely for the optimization algorithms to climb outside of the local minimum and find a better global minimum. Moreover, since the Sliding Ensemble Neural Networks method is an ensemble method, it benefits from having models that are as distinct and uncorrelated as possible.
+		
+		\subsection{Diversity of Ensembles}
+		
+		As mentioned in Section~\ref{sec:senn}, there is an important tradeoff between accuracy and diversity
 		
 		\section{Streaming Context}
 		
