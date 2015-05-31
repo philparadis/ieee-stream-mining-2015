@@ -560,7 +560,7 @@
 		
 		The building of this model is counter-intuitive because for an ensemble of classifiers to be more accurate than any of its individual members, it is necessary and sufficient for the individual classifiers to be accurate and diverse \cite{Hansen}. In this context, an \emph{accurate} classifier is one that has an error rate better than 50\%. A set of classifiers is said to be \emph{diverse} if the classification errors of the classifiers are independent from each other \cite{Dietterich}. Informally, this means that they don't make classification errors on the same new data points (more than would be allowed by chance alone). We therefore believe that for SENN, there is a tradeoff between accuracy \emph{of individual models} and diversity of the ensemble. In particular, in the case where the final weights of a neural network are passed and used as the initial weights of the subsequent neural network, that is considered equivalent to having trained each neural network on more data points than are available in a sliding window. In turns, this increases the accuracy of individual classifiers in the ensemble (in addition to reducing training time). 
 		
-		Of course, the end goal is to obtain the best accuracy from ensemble voting and not from individual neural networks. Thus, it is not immediately obvious what the best approach is as there is a delicate balance to establish, which we study in more details in Section~\ref{sec:passing-weights} and Section~\ref{sec:measurement-diversity}.
+		Of course, the end goal is to obtain the best accuracy from ensemble voting and not from individual neural networks. Thus, it is not immediately obvious what the best approach is as there is a delicate balance to establish, which we study in more details in Section~\ref{senn-results} and Section~\ref{sec:measurement-diversity}.
 		
 		However, the diversity issue can be further improved by careful models selection. Since the size of ensembles is fixed due to memory restrictions, an algorithm for models picking is necessary and a good algorithm can improve diversity.
 		
@@ -588,9 +588,9 @@
 		\section{Experimental Design}
 		\label{sec:experimental-design}
 		\subsection{Dataset}
-		The dataset we chose for our experiment is the Dodgers Loop Sensor Data Set from the UCI repository \cite{dataset}. It comes with two file: Dodgers.data and Dodgers.events. Dodgers.data contains 50,400 instances with 3 attributes (date, time, count of cars). Dodgers.events contains 81 instances with 6 attributes representing  Date, Begin event time, End event time, Game attendance, Away team, and W/L score. 
+		The dataset we chose for our experiment is the Dodgers Loop Sensor Data Set from the UCI repository \cite{dataset}. It comes with two file: Dodgers.data and Dodgers.events. Dodgers.data contains 50,400 instances with 3 attributes (date, time, count of cars). Dodgers.events contains 81 instances with 6 attributes representing \textit{date}, \textit{beginning of event time} and \textit{end of event time}. 
 		
-		According to the dataset description \cite{dataset}, ``this loop sensor data was collected for the Glendale on ramp for the 101 North freeway in Los Angeles. It is close enough to the stadium to see unusual traffic after a Dodgers game, but not so close and heavily used by game traffic so that the signal for the extra traffic is overly obvious." 
+		According to the dataset description \cite{dataset}, ``this loop sensor data was collected for the Glendale on ramp for the 101 North freeway in Los Angeles. It is close enough to the stadium to see unusual traffic after a Dodgers game, but not so close and heavily used by game traffic so that the signal for the extra traffic is overly obvious.'' 
 		
 		The observations of this dataset were taken over 25 weeks with count aggregates every 5 minutes. Thus, 288 data instances were generated per day with each data instance representing the cars count in a 5 minutes slot. This dataset is typically used with the goal of predicting the presence of a baseball game at Dodgers stadium based upon traffic patterns. 
 		
@@ -606,7 +606,7 @@
 		
 		\subsection{Aggregating Data}
 		
-		Figure \ref{fig:typical-week} is the plot of a typical week of the Dodgers Loop Dataset. The blue lines indicate the beginning of games and the red lines indicates the end of games. 
+		Figure~\ref{fig:typical-week} is the plot of a typical week of the Dodgers Loop Dataset. The blue lines indicate the beginning of games and the red lines indicates the end of games. 
 		
 		\begin{figure}[H]
 			\centering
@@ -677,14 +677,14 @@
 		\begin{figure}[H]
 			\centering
 			\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-minibatch}
-			\caption{Accuracy of Sliding Mini-Batch Neural Networks classifier on testing datasets.}
+			\caption{Accuracy of Sliding Mini-batch Neural Networks classifier on testing datasets.}
 			\label{fig:accuracy-smnn}
 		\end{figure}
 		The performance is poor with smaller window sizes since the training sets tend to be poorly balanced. The test accuracy with $L > 20$ is on average 85.5\%.
 		
 		
 		\subsection{Results of Sliding Ensemble Neural Networks}
-		\label{sec:results}
+		\label{sec:senn-results}
 		
 		Next, we consider our second method for classification of streaming data: the Sliding Ensemble Neural Networks method.
 		Again, all the parameters are the same as described in Section~\ref{sec:experimental-design}. The size of the hidden layer is 4, the maximum number of epochs is 50 and the decay is 0.1. We vary $L$ from 5 to 50.
@@ -692,24 +692,27 @@
 		\begin{figure}[H]
 			\centering
 			\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-ensemble}
-			\caption{Accuracy of ensemble of neural networks on  testing datasets.}
+			\caption{Accuracy of Sliding Ensemble of Neural Networks (passing weights) on  testing datasets.}
 			\label{fig:results-nnet-ensemble}
 		\end{figure}
 		
-		We get 86.0\% test accuracy. This is somewhat surprising for us, as we expected the algorithm to overfit, yet the test accuracy is very good.
+		We get 86.0\% test accuracy on average for SENN with passing of weights.
 		
-		\subsection{Results of SENN with and without passing weights}
-		\label{sec:passing-weights}
+		\begin{figure}[H]
+			\centering
+			\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-ensemble-dnpw}
+			\caption{Accuracy of Sliding Ensemble of Neural Networks (without passing weights) on  testing datasets.}
+			\label{fig:results-nnet-ensemble}
+		\end{figure}
 		
-		\subsection{Results of SENN with and without passing weights}
-		\label{sec:passing-weights}
+		We get 89.7\% test accuracy on average for SENN without passing of weights.
 		
-		In the following experiments, we measured the time it took to train a neural network. We compare the Sliding Mini-Batch Neural Networks, where the weights are passed along from one sliding window to the next, to the Sliding Ensemble Neural Networks method, where neural networks are trained independently.
+		Next, in the following experiments, we measured the time it took to train a neural network. We compare the Sliding Mini-Batch Neural Networks, where the weights are passed along from one sliding window to the next, to the Sliding Ensemble Neural Networks method, where neural networks are trained independently.
 		
 		\begin{figure}[H]
 			\centering
 			\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-ens-timing}
-			\caption{Timing required to train an ensemble of neural networks if weights are passed between subsequent neural networks or if they are not passed.}
+			\caption{Timing required to train a Sliding Ensemble of Neural Networks if weights are passed between subsequent neural networks or if they are not passed.}
 			\label{fig:results-nnet-ens-timing}
 		\end{figure}
 		
@@ -723,15 +726,13 @@
 			\label{fig:maxit}
 		\end{figure}
 		
-		Without a surprise, we find that Sliding Mini-Batch Neural Networks require a lot less training iterations to reach their maximal accuracy (this makes sense, since the weights are carrier from one neural network to the next). What is really interesting, however, is that the model where the neural networks are trained independently without passing weights seem to perform slightly better when the window size is big.
-		
-		The main reason that we attribute for this is the higher ensemble diversity that results from not passing weights. Indeed, we believe that this approach helps avoid overfitting and instead favors generalization, as the individual models are less likely to have the same biases.
+		Without a surprise, we find that Sliding Mini-Batch Neural Networks require a lot less training iterations to reach their maximal accuracy. This makes sense, since the weights are carried from one neural network to the next. 
 		
 		%We studied this problem in more details. We attempted to vary the size of the hidden layers of the Sliding Mini-batch Neural Networks. We were hoping that reducing the model's complexity might help prevent overfitting. We also reduced the maximum number of iterations during training to aid in reducing overfitting as well. In either cases, the performance did not get better, but only worse.
 		
 		%Therefore, this gives some support to the latter theory that the neural nets simply get ``stuck'' in local minima.
 		
-		Finally, we investigated the performance of individual neural networks within ensembles. In other words, in Figure~\ref{fig:mean-accuracy-individual-models}, we did not perform any ensemble voting. Instead, we computed the test accuracy of each individual neural network within a SENN ensemble and then took the mean of those accuracies. We repeated the computation for various sliding window sizes as well as with and without passing of weights. We can therefore see in Figure~\ref{fig:mean-accuracy-individual-models} the contrast between the two approaches: individual models \emph{do} have higher accuracy in the case where weights are passed (yet, this does not necessarily lead to a higher ensemble accuracy, since models diversity is lower in this case --- see Section~\ref{sec:measurement-diversity}).
+		Finally, we investigated the performance of individual neural networks within ensembles. In other words, in Figure~\ref{fig:mean-accuracy-individual-models}, we did not perform any ensemble voting. Instead, we computed the test accuracy of each individual neural network within a SENN ensemble and then took the mean of those accuracies. We repeated the computation for various sliding window sizes as well as with and without passing of weights. We can therefore see in Figure~\ref{fig:mean-accuracy-individual-models} the contrast between the two approaches: individual models \emph{do} have higher accuracy in the case where weights are not passed. Yet, this does not necessarily lead to a higher ensemble accuracy, since models diversity is lower in this case --- see Section~\ref{sec:measurement-diversity}.
 
 		\begin{figure}[H]
 			\centering
@@ -740,19 +741,21 @@
 			\label{fig:mean-accuracy-individual-models}
 		\end{figure}
 			
-			
 		\subsection{Comparison} 
 		
-		Finally, we compare the performance of both models in the following figure:
+		Finally, we compare the performance of SMNN and SENN in the following figure:
 		\begin{figure}[H]
 			\centering
 			\adjincludegraphics[width=1\linewidth, center]{figures/results-all-methods-compare}
-			\caption{Comparison of the test accuracy of the 3 streaming data classification methods.}
+			\caption{Comparison of the test accuracy of the SMNN and SENN (with and without passing weights) stream mining algorithms.}
 			\label{fig:results-trees-ensemble}
 		\end{figure}
-		It seems that the Sliding Ensemble Neural Networks (pass or not pass the weight) performs the best. Especially, when the sliding window size is small, Sliding Ensemble Neural Networks outperforms  the other models significantly, and the performance of SENN converges to that of batch learners. Therefore, this model has a potential to generalize to massive stream datasets with only a small fixed memory required for the computation, while the result is converged to that of batch learners.
 		
-		The following Table summarize the accuracy of the two models from window size=23 to 50 with step=3.
+		What we found particularly interesting is that the SENN algorithm without passing weights seems to perform slightly better when the window size is big. We attribute this higher accuracy to the fact that not passing weights favors a higher ensemble diversity. Indeed, we believe that this approach helps avoid overfitting and instead favors generalization, as the individual models are less likely to have the same biases.
+		
+		Overall, the Sliding Ensemble Neural Networks, with or without passing the weights, performs the best. Especially, when the sliding window size is small, Sliding Ensemble Neural Networks outperforms  the other models significantly, and the performance of SENN converges to that of batch learners. Therefore, this model has the potential to generalize to massive streaming datasets with only a small fixed memory required for the computation, while the accuracy converges to that of batch learners.
+		
+		The following Table summarizes the accuracy of the two models from window size 23 to 50 with steps of 3.
 		% latex table generated in R 3.1.2 by xtable 1.7-4 package
 		% Fri Mar 27 09:57:27 2015
 		\begin{table}[H]
@@ -761,7 +764,7 @@
 				\hline
 				Size of&  Sliding& Sliding Ensemble& Sliding Ensemble\\
 				sliding&  Mini-batch& Neural Networks& Neural Networks\\
-				windows&  Neural Networks& & (no weights pass)\\
+				windows&  Neural Networks& (passing weights) & (no weights pass)\\
 				\hline
 				23 &  0.840 & 0.864 & 0.877 \\ 
 				26 &  0.827 & 0.864 & 0.864 \\ 
@@ -782,12 +785,12 @@
 		
 		The Sliding Ensemble Neural Networks in which weights were \emph{not} passed between sliding windows performed best on our dataset, followed by Sliding Ensemble Neural Networks with passing weights, then finally Sliding Mini-batch Neural Networks.
 		
-		To see if these differences are statistically significant, we performed a Friedman test on the results of Table 1. The test results return $\chi^2_F= 19.7191$, df = 3, p-value = 0.0001941. For a two tailed test at the 0.05 level of significance, the critical value is 7.8. Since the $\chi_F^2 >7.8$, we reject the null hypothesis that all classifiers perform the same on all 10 domains (we treat each case with a different size of sliding window as one domain).
+		To see if these differences are statistically significant, we performed a Friedman test on the results of Table 1. The test results returned $\chi^2_F= 19.7191$, df = 3, p-value = 0.0001941. For a two tailed test at the 0.05 level of significance, the critical value is 7.8. Since $\chi_F^2 >7.8$, we reject the null hypothesis that all classifiers perform the same on all 10 domains (we treat each case with a different size of sliding window as one domain).
 		
 		To pinpoint where the difference lies, we applied the Nemenyi test and obtained $q_{\text{SMNN-SENNp}}= 1.732051$,  $q_{\text{SMNN-SENNnp}}=25.114737$, $q_{\text{SENNp-SENNnp}}=23.382686$.
-		Check the table of $q$ test, we obtain that $q_\alpha=4.02$ for $\alpha=0.05$ and $df = (n-1)(k-1) = 9 \times 3 = 27$ for the Tukey test. For the Nemenyi test, we divide this value by $\sqrt{2}$. This yields $q_\alpha = 2.84$. Therefore, the null hypothesis can be rejected in all cases except the case of $q_{\text{SMNN-SENNp}}= 1.732051$, the comparison of Sliding Mini-batch Neural Networks and Sliding Ensemble Neural Networks with passing weight.
+		Then, from a $q$-test table, we obtain that $q_\alpha=4.02$ for $\alpha=0.05$ and $df = (n-1)(k-1) = 9 \times 3 = 27$ for the Tukey test. For the Nemenyi test, we divide this value by $\sqrt{2}$. This yields $q_\alpha = 2.84$. Therefore, the null hypothesis can be rejected in all cases except the case of $q_{\text{SMNN-SENNp}}= 1.732051$, the comparison of Sliding Mini-batch Neural Networks and Sliding Ensemble Neural Networks with passing weight.
 		
-		Notice that both the Sliding Ensemble Neural Networks and the Sliding Mini-batch Neural Networks methods are algorithms in which the neural network connection weights are being passed from one neural net to the other (i.e. the final weight matrix of one neural network is used as initialization weights for the next neural network to be trained). Those two methods perform fairly similarly and they are both worse than the method which involves \emph{not} passing the weights. We attribute this difference due to higher diversity of ensembles in the latter approach. Indeed, see Section~\ref{sec:measurement-diversity} for more a measurement of the ensembles diversity.
+		Notice that both the Sliding Ensemble Neural Networks and the Sliding Mini-batch Neural Networks methods are algorithms in which the neural network connection weights are being passed from one neural network to the other (i.e. the final weights matrix of one neural network is used as initialization weights for the next neural network to be trained). Those two methods perform fairly similarly and they are both worse than the method which involves \emph{not} passing the weights. We attribute this difference due to higher diversity of ensembles in the latter approach. Indeed, see Section~\ref{sec:measurement-diversity} for more a measurement of the ensembles diversity.
 		
 		\subsection{Measurement of Diversity of Ensembles}
 		\label{sec:measurement-diversity}
@@ -852,9 +855,9 @@
 		\section{Conclusion and Further Work}
 		\label{sec:conclusion}
 		
-		In this paper, we tested out two models: Sliding Mini-batch Neural Networks,  and Sliding Ensemble Neural Networks. They were both trained on sliding windows, which allows learning on labelled data of arbitrary sizes, as well as learning in an incremental fashion on continuous data that may even change with time (concept drift). We used a fairly small dataset called the Dodger Loop Sensor Data set, but the methods were developed with generalization to datasets of arbitrary size as the goal.
+		In this paper, we tested out two models: Sliding Mini-batch Neural Networks,  and Sliding Ensemble Neural Networks. They were both trained on sliding windows, which allows learning on labeled data of arbitrary sizes, as well as learning in an incremental fashion on continuous data that may even change with time (concept drift). We used a fairly small dataset called the Dodger Loop Sensor Data set, but the methods were developed with generalization to datasets of arbitrary size as the goal.
 		
-		The results indicate that the performances of the two models we proposed are all converging to that of popular batch learners, with Sliding Ensemble Neural Networks performed better than Sliding Mini-Batch Neural Networks. We believed that the relatively worse performance of  Sliding Mini-Batch Neural Networks came from the overfitting of the data. We tried reducing the number of nodes in the hidden layers and reducing the training iterations, but the result didn't improve that much. One future work can be done is to investigate on this overfitting and resolve the issue. In addition to using ensemble methods, a few other possible solutions could be to use an incremental version of PCA to reduce the number of features to make the input layer smaller.
+		The results indicate that the performances of the two models we proposed are all converging to that of popular batch learners, while Sliding Ensemble Neural Networks performed better than Sliding Mini-Batch Neural Networks. We believed that the relatively worse performance of  Sliding Mini-Batch Neural Networks came from the overfitting of the classifier. We tried reducing the number of nodes in the hidden layers and reducing the training iterations, but the result didn't improve that much. One future work can be done is to investigate on this overfitting and resolve the issue. In addition to using ensemble methods, a few other possible solutions could be to use an incremental version of PCA to reduce the number of features to make the input layer smaller.
 		
 		We also noticed that there seems to be a definite relationship between the size of sliding windows $L$ and the test accuracy of the classifiers. It is clear that for very small $L$, the sliding windows contain too few examples to be representative of the actual data and are frequently unbalanced, which explains the poor performance. However, for larger values of $L$, it is not clear what the nature of the relationship is and more research is required.
 		
