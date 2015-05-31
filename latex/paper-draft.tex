@@ -265,7 +265,7 @@
 
 
 %\usepackage[caption=false]{caption}
-%\usepackage[font=footnotesize]{subfig}
+\usepackage[font=footnotesize]{subfig}
 % subfig.sty, also written by Steven Douglas Cochran, is the modern
 % replacement for subfigure.sty. However, subfig.sty requires and
 % automatically loads Axel Sommerfeldt's caption.sty which will override
@@ -403,7 +403,7 @@
 		
 		\begin{abstract}
 			%\boldmath
-			Learning from data streams is a research area of increasing importance \cite{evaluation_stream_mining}. Nowadays, several stream learning algorithms have been developed. Most of them learn decision tree models that continuously evolve over time, such as Very Fast Decision Trees (VFDT). However, it is not natural to use decision trees when learning has to be continuous --- which it frequently does due to concept drift --- because it is costly to adjust the tree's shape with new data. We thus propose two efficient incremental learning algorithms based on Neural networks, Sliding Mini-batch Neural Networks and Sliding Ensemble Neural Networks, which avoid this problem. The results of our experiment on the Dodgers Loop Sensor Dataset indicate that the performances of our algorithms converge to that of popular batch learners.
+			Learning from data streams is a research area of increasing importance \cite{evaluation_stream_mining}. Nowadays, several stream mining algorithms have been developed. Most of them learn decision tree models that continuously evolve over time, such as Very Fast Decision Trees (VFDT). However, it is not natural to use decision trees when learning has to be continuous --- which it frequently does due to concept drift --- because it is costly to adjust the tree's shape with new data. We thus propose two efficient incremental learning algorithms based on neural networks, Sliding Mini-batch Neural Networks and Sliding Ensemble Neural Networks, which avoid this problem. The results of our experiment on the Dodgers Loop Sensor Dataset indicate that the performances of our algorithms converge to that of popular batch learners.
 			
 			%We use the Dodgers Loop Sensor Dataset from the UCI repository, where the task is to classify days on which a Dodgers baseball game occurred based on spikes in highway traffic near the stadium. 
 		\end{abstract}
@@ -437,34 +437,33 @@
 		% no \IEEEPARstart
 		\label{sec:introduction}
 		
-		Learning from data streams is a research area of increasing importance \cite{evaluation_stream_mining}. Many datasets are no longer static, instead they continuously get updated, sometimes with millions or even billions of new records per day. In most cases, this data arrives in a stream or in streams, and if it is not processed immediately or stored, then it will be lost forever. Moreover, the data arrives so rapidly that it is usually not feasible to store it all. To extract useful knowledge from this tremendously valuable data, data stream mining became popular.
+		Learning from data streams is a research area of increasing importance \cite{evaluation_stream_mining}. Many datasets are no longer static, instead they continuously get updated, sometimes with millions or even billions of new records per day. In most cases, this data arrives in streams, and if it is not processed immediately or stored, it will be lost forever. Moreover, the data arrives so rapidly that it is usually not feasible to store it all. To extract useful knowledge from this tremendously valuable data, stream mining became popular.
 		
-		Data stream mining is the process of extracting knowledge from an ordered sequence of data instances. One goal of data stream mining is to predict the class of new data instances based on previous instances in the data stream (classification). In many applications, data analysis can only be performed in one pass over the data, storing at most a small fraction of data points. Because of this, traditional batch learning algorithms are often unsuitable for data stream mining.  We thus need algorithms that can summarize information about prior data instances without keeping all of them in memory.  
+		Data stream mining is the process of extracting knowledge from an ordered sequence of data instances. One goal of data stream mining is to predict the class of new data instances based on previous instances in the data stream (classification). In many applications, data analysis can only be performed in one pass over the data due to the sheer size of the dataset. Because of this, traditional batch learning algorithms are often unsuitable for data stream mining.  We thus need algorithms that can summarize information about prior data instances without keeping all of them in memory.  
 		
-		Several attempts have been made to modify the existing batch learners for data stream learning. According to Gama et al. \cite{evaluation_stream_mining}, most of them use decision trees ``that continuously evolve over time, taking into account that the environment is non-stationary and computational resources are limited.'' Examples of these algorithms are Very Fast Decision Trees (VFDT) \cite{VFDT} and Concept adapting Very Fast Decision Trees (CVFDT) \cite{CVFDT}.
-		
-		
+		Several attempts have been made to modify the existing batch learners for data stream learning. According to Gama et al. \cite{evaluation_stream_mining}, most of them use decision trees ``that continuously evolve over time, taking into account that the environment is non-stationary and computational resources are limited.'' Examples of these algorithms are Very Fast Decision Trees (VFDT) \cite{VFDT} and Concept-adapting Very Fast Decision Trees (CVFDT) \cite{CVFDT}.
+
 		However, it is not natural to use decision trees for data stream mining, because they are very inefficient at dealing with concept drift -- an important issue in data stream mining. Decision trees work top-down in a way involving choosing the best attributes to split data at each level. To grow one level, decision tree algorithms need to scan the whole dataset once. Then, once the attributes are chosen, it is costly to change the shape of the trees or to change the nodes which have already been chosen. In the worst case scenario, if the new training data requires the root attribute to be changed, then all the nodes have to be chosen again. Since the characteristics of streaming data require the algorithm to constantly adjust to the new data, decision trees are not the best for data streams mining. 
 		
 		On the other hand, it is easy to see that neural networks (NN) are suitable for dealing with concept drift. In fact, they naturally handle well the task of incremental learning. A typical feed-forward neural network has one input layer, one output layer and several hidden layers. It learns by adjusting the weights between neurons in iterations. When continuous, high-volume, open-ended data streams come, it is necessary to pass the data in smaller groups (mini-batch learning) or one at a time (online learning) before updating the weights. In this manner, neural networks can learn by seeing each example only once and therefore do not require examples to be stored. 
 		
-		We build two models based on mini-batches of Neural Networks and sliding windows.
-		The first model \emph{\textbf{S}liding \textbf{M}ini-batch  \textbf{N}eural \textbf{N}etworks} (SMNN) works by passing the final weights from the trained neural network on one sliding window to be the initial weights at the subsequent window. The second model \emph{\textbf{S}liding \textbf{E}nsemble  \textbf{N}eural \textbf{N}etwork} (SENN) works by training one neural network -- completely independently -- in each sliding window and taking a majority vote from all neural networks in the ensemble. 
+		In this paper, we build two models based on mini-batches of neural networks and sliding windows.
+		The first model, \emph{\textbf{S}liding \textbf{M}ini-batch  \textbf{N}eural \textbf{N}etworks} (SMNN), works by passing the final weights from the trained neural network on one sliding window to be the initial weights at the subsequent window. The second model ,z\emph{\textbf{S}liding \textbf{E}nsemble  \textbf{N}eural \textbf{N}etwork} (SENN), works by training one neural network -- completely independently -- in each sliding window and taking a majority vote from all neural networks in the ensemble. 
 		
 		SMNN and SENN satisfy the desirable properties of learning systems for efficient data stream mining proposed by G. Hulten and P. Domingos \cite{Domingos}: they require small constant time per data example; they use fixed amount of main memory, irrespective of the total number of examples; they build models using a single scan over the training data; they generate anytime models independent from the order of the examples; and they have the ability to deal with concept drift. 
 		
-		The rest of this paper is organized as follows: in Section~\ref{sec:related-work}, we discuss the related work. In Section~\ref{sec:models}, we propose our methods for mining streaming data. In Section \ref{sec:experimental-design}, we discuss the data pre-processing and the experimental design. In Section~\ref{sec:experiments-and-results}, we present the results and compare them with the popular stream mining algorithms. In Section~\ref{sec:conclusion}, we conclude with remarks, discussion of the limitation of the experiment and suggestions for further work.
+		The rest of this paper is organized as follows: in Section~\ref{sec:related-work}, we discuss the related work. In Section~\ref{sec:models}, we propose our methods for mining streaming data. In Section \ref{sec:experimental-design}, we discuss the data pre-processing and the experimental design. In Section~\ref{sec:experiments-and-results}, we present the results and compare them with the popular stream mining algorithms. In Section~\ref{sec:conclusion}, we conclude with remarks, discussion of the limitations of the experiment and suggestions for further work.
 		
 		%We then used both models to classify the Dodgers Loop Sensor Data Set with sliding windows.
 		\section{Related work}
 		\label{sec:related-work}
 		In this section, we first review recent studies on decision trees based stream mining algorithms. Then we discuss recent studies on stream mining algorithms based on incremental neural networks and ensemble methods. 
 		
-		Stream data mining have become prevalent only in the last few decades; however, many literature already proposed different algorithms for stream data mining. Based on paper ``Introduction to stream: An Extensible Framework for Data Stream Clustering Research with R'' \cite{Rstream}, several classification methods suitable for data streams have been developed. Examples are Very Fast Decision Trees (VFDT) \cite{VFDT} based on Hoeffding trees, Online Information Network (OLIN)  \cite{last}, On-demand Classification \cite{Aggarwal04} based on micro-clusters found with the data-stream, and clustering algorithm CluStream \cite{ggarwal03}. There are some other methods we found online such as UFFT (ultra fast forest trees) \cite{gama} and CBDT (concept based decision tree) \cite{CBDT}.  
+		Stream data mining has become prevalent in the last two decades and many different algorithms for stream data mining have already been proposed in the literature. Based on the paper ``Introduction to stream: An Extensible Framework for Data Stream Clustering Research with R'' \cite{Rstream}, several classification methods suitable for data streams have been developed. Examples are Very Fast Decision Trees (VFDT) \cite{VFDT} based on Hoeffding trees, Online Information Network (OLIN)  \cite{last}, On-demand Classification \cite{Aggarwal04} based on micro-clusters found with the data-stream, and the clustering algorithm CluStream \cite{ggarwal03}. There are many other popular algorithms, such as UFFT (ultra fast forest trees) \cite{gama} and CBDT (concept based decision tree) \cite{CBDT}, for example. 
 		
 		As we can see, most of these algorithms are based on decision trees. However, the decision tree structure is unstable and it is costly to adjust the trees' shape with new data. We study VFDT in this paper as an illustration.
 		
-		The traditional decision tree classifier uses a divide-and-conquer approach. Typically, it needs to scan the whole dataset once to grow one level (excluding elements that have already reached a leaf at a lower level). After the scan, it finds the best attribute for splitting the data at each node by information gain or etc. To develop one decision tree, multiple scans of the whole dataset are required as the following figure indicates:
+		The traditional decision tree classifier uses a divide-and-conquer approach. Typically, it needs to scan the whole dataset once to grow one level (excluding elements that have already reached a leaf at a lower level). After the scan, it finds the best attribute for splitting the data at each node by information gain or Gini index or other criteria. To develop one decision tree, multiple scans of the whole dataset are required as the following figure indicates:
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=\linewidth]{figures/decision_tree}
@@ -472,9 +471,9 @@
 			\label{fig:tree}
 		\end{figure}
 		
-		As we can see, decision trees need to scan the whole dataset to grow one level (if no leaves have been formed yet). However, we cannot keep the entire dataset in memory for typical stream mining datasets. Therefore, traditional decision trees algorithms don't suit the job of stream mining. An algorithm that can learn \emph{incrementally} is required.
+		As we can see, decision trees need to scan the whole dataset to grow one level (if no leaves have been formed yet). However, we cannot keep the entire dataset in memory for typical stream mining datasets. Therefore, traditional decision tree algorithms don't suit the job of stream mining. An algorithm that can learn \emph{incrementally} is required.
 		
-		The VFDT overcomes this limitation by building each node of the decision tree based on a small amount of data instances. According to Domingos \cite{VFDT}, the VFDT works as the following: ``given a stream of examples, the first ones will be used to choose the root test; once the root attribute is chosen, the succeeding examples will be passed down to the corresponding leaves and used to choose the appropriate attributes there, and so on recursively." An illustration of how VFDT is built is shown as Figure~\ref{fig:VFDT}.
+		The VFDT overcomes this limitation by building each node of the decision tree based on a small amount of data instances. According to Domingos \cite{VFDT}, the VFDT works as follows: ``given a stream of examples, the first ones will be used to choose the root test; once the root attribute is chosen, the succeeding examples will be passed down to the corresponding leaves and used to choose the appropriate attributes there, and so on recursively." An illustration of how VFDT is built is shown as Figure~\ref{fig:VFDT}.
 		
 		\begin{figure}[H]
 			\centering
@@ -482,47 +481,50 @@
 			\caption{An illustration of VFDT}
 			\label{fig:VFDT}
 		\end{figure}
-		To decide how many examples (the size of $n$ in the above Figure) are necessary at each node, the Hoeffding bound is used. With the hoeffding bound, the VFDT can guarantee that the performance of Hoeffding tree converges to that of a batch learner decision tree \cite{VFDT}.
+		To decide how many examples (the size of $n$ in the above Figure) are necessary at each node, the Hoeffding bound is used. With the Hoeffding bound, the VFDT can guarantee that the performance of Hoeffding trees converges to that of a batch learner decision tree \cite{VFDT}.
 		
 		The Hoeffding bound works as follows: consider $r$ as a real valued random variable, $n$ as the number of independent observations of $r$, and $R$ as the range of $r$, then the mean of $r$ is at least $r_{avg}-\epsilon$, with probability $1-\delta$: 
 		$$P(\bar{r} \geq r_{avg}-\epsilon) = 1-\delta$$ where $$ \epsilon=\sqrt{\frac{R^2 \text{ln}(1/\delta)}{2n}}$$
 		
-		Although the performance of the VFDT converges to that of a batch learning tree, this data structure is not ``stable'' and only works when there is no concept drift. Subtle changes of the distribution of the data can cause the Hoeffding trees to fail. For example, in Figure~\ref{fig:VFDT}, suppose that the first $n$ examples choose Q1 as the root attribute, and we kept growing trees until we reach level 1000. Suddenly, the distribution of the data changed, choosing Q500 as the root attribute will give a much better prediction as choosing Q1. Then the tree has to rebuild again, but we can't retrieve the data passed in the stream, and we might not have enough data to rebuild another tree.
+		Although the performance of the VFDT converges to that of a batch learning tree, this data structure is not ``stable'' and only works when there is no concept drift. Subtle changes of the data distribution can cause the Hoeffding trees to fail. For example, in Figure~\ref{fig:VFDT}, suppose that Q1 was chosen as the root attribute after the first $n$ examples and trees were grown until reaching level 1000. Next, assuming a sudden change in the data distribution (due to concept drift), it would be possible that choosing a new root attribute, such as Q500 instead of Q1, would give a much better prediction. In this case, the tree would have to be rebuilt completely, but this is generally impossible since we can't retrieve the earlier data passed in the stream.
 		
-		To mitigate the issue of concept-drift, the same authors introduced Concept-adapting Very Fast Decision Trees (CVFDT), which adapt better to concept drift by monitoring changes of information gain for attributes and generating alternate subtrees when needed. However, it still can't solve the issue completely because the algorithm only monitors the leaves.
+		To mitigate the issue of concept drift, the same authors introduced Concept-adapting Very Fast Decision Trees (CVFDT), which adapt better to concept drift by monitoring changes of information gain for attributes and generating alternate subtrees when needed. However, it still can't solve the issue completely because the algorithm only monitors the leaves.
 		
 		%Similarly as VFDT and CVFDT, the papers \cite{RF1,RF2} propose an idea called Streaming Random Forests, which builds all the trees in the random forests at the same time. When new training data instances come, they will be routed down through each tree and change the shape of the tree, given that some criteria are satisfied. Their idea is very similar to VFDTs except that VFDTs grow one tree and the Streaming Random Forests algorithm grows multiple trees.
 		
 		Due to this disadvantage of decision tree based streaming mining algorithms, other researchers tried to stay away from having to re-grow decision trees at all by using incremental neural networks or ensemble methods.
 		
-		Many researchers present algorithms based on incremental neural networks, such as the paper \cite{NN1,NN2,NN3,NN4} which use incremental neural networks to training data one by one, and update the weight every time after scanning a data points. The shortcoming of this incremental neural networks is that the result is highly depends on the randomized initial weight since we only pass the data once. As we know, in batch learning, we pass the data in many epochs to avoid the effect of randomized initial weight. This is impossible in incremental neural networks since the data only got passed once, and we can't retrieve the lost data.
+		Many researchers have proposed algorithms based on incremental neural networks, such as the papers \cite{NN1,NN2,NN3,NN4} which use incremental neural networks to train on the data points one by one and update the weights every time after scanning a data point. The shortcomings of this incremental neural network is that the results are highly dependent on the randomized initial weights since data is only passed once. As we know, in batch learning, we pass the data in many epochs to avoid the effect of randomized initial weights. This is impossible in incremental neural networks since the data only gets passed once and previous data is discarded.
 		
-		Other researchers present methods based on ensemble classifiers, such as paper \cite{ensemble1} propose a general framework for mining concept-drifting data streams using weighted ensemble classifiers. The authors train an ensemble of classification models from sequential chunks of the data stream. However, building a classifier independently on each chunk can be inefficient since the data from each chunk are usually dependent. 
+		Other researchers proposed methods based on ensemble classifiers. For example, Wang et al.\cite{ensemble1} proposed a general framework for mining data streams with concept drift using weighted ensemble classifiers. The authors train an ensemble of classification models from sequential chunks of the data stream. However, building a classifier independently on each chunk can be inefficient since the data from all chunks are usually dependent. 
 		
-		Overall, most of stream mining algorithms involve some stream summarization. There are different ways to summarize data streams. Some methods will only keep a portion of the data in streams by using sampling. Such approaches including Reservoir Sampling \cite{vitter}, Concise Sampling \cite{Gibbons}, Chain Sampling \cite{Babcock}, Order Statistics with sampling approximate quantiles \cite{Manku}, and Sampling from a Moving Window, such as sliding windows. Another common method for processing the stream data is filtering, such as bloom Filters. The third common method is to construct a probabilistic summary of the data with hash functions and randomized algorithms to get approximation. 
+		Overall, most stream mining algorithms involve some stream summarization. There are different ways to summarize data streams. Some methods will only keep a portion of the data in streams by using sampling. Such approaches including Reservoir Sampling \cite{vitter}, Concise Sampling \cite{Gibbons}, Chain Sampling \cite{Babcock}, Order Statistics with sampling approximate quantiles \cite{Manku}, and Sampling from a Moving Window, such as sliding windows. Another common method for processing the stream data is filtering, such as bloom Filters. The third most common method is to construct a probabilistic summary of the data with hash functions and randomized algorithms to get approximations. 
 		
 		
-		The models present in this paper overcome the disadvantages of incremental neural networks and ensemble classifiers.  Our method of SMNN learn the stream data in mini-batches with sliding windows. In each mini-batch, we run the algorithm in many epochs to reduce the effect of randomized initial weight. Moreover, we pass the weight from one mini-batch to the other mini-batch in order to obtain a better weight. The method of SENN trains multiple neural networks on sliding windows and uses plurality voting on the collection of neural networks to classify new data. Moreover, whenever this is no concept drift, we pass the weights learned from a sliding window to the subsequent sliding window and use them as the initial weights of the next neural network. By doing so, the training  is much faster as compared to using random weights every time. We will also show that the classifiers are diverse enough to give a good prediction. 
+		The models proposed in this paper overcome the disadvantages of incremental neural networks and ensemble classifiers.  The SMNN algorithms learns from stream data in mini-batches with sliding windows. In each mini-batch, we run the algorithm in many epochs to reduce the effect of randomized initial weights. Moreover, we pass the weights from one mini-batch to the other mini-batch in order to obtain better weights. The method of SENN trains multiple neural networks on sliding windows and uses plurality voting on the collection of neural networks to classify new data. Moreover, whenever there is no concept drift, we pass the weights learned from a sliding window to the subsequent sliding window and use them as the initial weights of the next neural network. By doing so, the training  is much faster compared to using random weights every time. We will also show that the classifiers are diverse enough to give a good prediction. 
 		
 		\section{Sliding Neural Network Algorithms} 
 		\label{sec:models}
+		TODO: This section isn't very clear. Should rewrite.
+		
 		As discussed in Section \ref{sec:related-work}, each stream mining algorithm usually involves some summarization method. In both of our models,  we used the \emph{sliding windows} to summarize the data streams.
 		
-		Sampling from a Moving Window is to maintain a \emph{sliding window} of the most recently arrived data. In other words, the window has a fixed size $L$ and it works as a first in first out queue. we chose sliding windows to summarize and sample our data, as it is simple and quite appropriate for the task of classification. 
+		Sampling from a moving window is to maintain a \emph{sliding window} of the most recently arrived data. In other words, the window has a fixed size $L$ and it works as a first in first out queue. we chose sliding windows to summarize and sample our data, as it is simple and quite appropriate for the task of classification. 
 		
 		Usually, the sliding window slides one data instances each time ($d=1$). However, it can be inappropriate if the streaming data arrives so rapidly and running algorithms on the sliding windows gets too slow. This problem can be easily fixed by increasing the length of the step for the sliding window ($d>1$).  
 		
 		\subsection{Sliding Mini-Batch Neural Networks}
-		The first model we came up for mining a stream of data is the Sliding Mini-batch Neural Networks. As the name of Sliding Mini-batch Neural Networks indicated, what we did is to ``pass'' the weights of neural networks. In other words, we passed the final weights of a trained neural network on a sliding window and used them as the initial weights for training a neural network on the next sliding window.
+		The first model we introduce for mining a data stream is called Sliding Mini-batch Neural Networks. Essentially, this algorithm involves ``passing'' the weights of neural networks. In other words, we passed the final weights of a trained neural network on a sliding window and used them as the initial weights for training a neural network on the next sliding window.
+
 		
-		In our model, we combined the neural networks with sliding windows to train the data. Suppose the training dataset has the size $n$. Let us fix $L$ as the size of sliding windows and $d$ as the length of the step we slide each time, then we will have $(n-L+d)$ \textbf{mod} $d$ ($(n-L+d)\%d$) sliding windows in total. We train our model in the following steps: 
+		In our model, we combined the neural networks with sliding windows to train the data. Suppose the training dataset has size $n$. Let us fix $L$ as the size of sliding windows and $d$ as the length of the steps we slide each time, then we will have $s = \lfloor(n-L+d) / d\rfloor$ sliding windows in total. Denote the sliding windows by $Y_1, \ldots, Y_s$.  The model is trained with following steps: 
 		\begin{enumerate}
-			\item We randomly initialize a weight matrix $\textbf{W}_1$
-			\item Train the neural network with random assigned weight on the $L$ data points in sliding window for up to $m$ epochs. Obtain $\textbf{W}_1$ which is the final weight matrix in the neural network.
+			\item Randomly initialize a weight matrix $\textbf{W}_0$.
+			\item Train the neural network with the $L$ data points in sliding window $Y_1$ for up to $m$ epochs. Obtain $\textbf{W}_1$ which is the final weights matrix of the neural network.
 			\footnote{An epoch is a single pass through the entire training set} 
-			\item Train the neural network with $\textbf{W}_1$ as starting weights on the $L$ data points in sliding window 2 for $m$ epochs. Obtain $\textbf{W}_2$, the final weights of the neural network.\\
+			\item Train another neural network with $\textbf{W}_1$ as initial weights on the $L$ data points in sliding window $Y_2$ for $m$ epochs. Obtain $\textbf{W}_2$, the final weights of the neural network.\\
 			$\ldots$
-			\item Repeat until we reach the last sliding window and obtain the final weights $\textbf{W}_{(n-L+d)\%d}$.
+			\item Repeat until we reach the last sliding window $Y_s$ and obtain the final weights $\textbf{W}_{s}$.
 		\end{enumerate}
 		A graph of the Sliding Mini-batch Neural Networks is as follows:
 		\begin{figure}[H]
@@ -531,18 +533,20 @@
 			\caption{Sliding Mini-Batch Neural Networks}
 			\label{fig:minibatchANN}
 		\end{figure}
-		After passing all the data in sliding windows for training, the neural network model is ready for classification. The weight matrix $\textbf{W}_{(n-L+d)\%d}$ will be the weights of connections for the final neural network used to classify testing data.
+		After passing all the data in sliding windows for training, the neural network model is ready for classification. The weights matrix $\textbf{W}_{\lfloor(n-L+d) / d\rfloor}$ will be the weights of connections for the final neural network used to classify testing data.
 		
-		As we discussed in section \ref{sec:related-work}, SMNN optimizes the incremental neural networks algorithm since the initialized weight is adjusted constantly by the $L$ data instances in one sliding window. By feeding the data instances in one sliding window in many epochs, the order of feeding the data become less important. Therefore, the performance of SMNN is less random than incremental neural networks algorithm. Therefore, SMNN has smaller bias and variance in classification.
+		As we discussed in section \ref{sec:related-work}, SMNN optimizes the incremental neural networks algorithm since the initial weights are adjusted constantly by the $L$ data instances in one sliding window. By feeding the data instances in one sliding window in many epochs, the order of feeding the data becomes less important. Therefore, the performance of SMNN is less random than incremental neural networks algorithm. Therefore, SMNN has smaller bias and variance in classification.
 		
 		
 		\subsection{Sliding Ensemble Neural Networks}
 		\label{sec:senn}
-		The second model we came up with is based on ensemble of Neural networks with sliding windows. As shown in paper \cite{ensemble1}, ensemble of classifiers usually works better than a single classifier in mining data streams. Therefore, we decided to build one neural network on each sliding window and take a majority vote. However, most of the time, the data instances in data stream are dependent. For example, the temperatures measured by the sensor are usually dependent on or correlated to last temperature measure.
+		The second model we introduce is based on ensembles of neural networks with sliding windows. As shown in paper \cite{ensemble1}, ensemble of classifiers usually works better than a single classifier in mining data streams. Therefore, the main idea is to build one neural network on each sliding window and take a majority vote. However, most of the time, the data instances in data streams are dependent. For example, the temperatures measured by a sensor are usually dependent on or correlated to the last temperature measure.
 		
-		Because data instances in a data stream are usually dependent, it is nature to assume that the data instances in a sliding window are correlated to those in the previous sliding window.  Due to the dependency of data instances between different sliding windows, we thus concluded that it is inefficient to build a neural network on each sliding window independently.   
+		Because data instances in a data stream are usually dependent, it is natural to assume that the data instances in a sliding window are correlated to those in the previous sliding window.  Due to the dependency of data instances between different sliding windows, we concluded that it would be inefficient to build a neural network on each sliding window independently.   
 		
-		We thus further improved the model by passing the weights from one neural network to the succeeding neural network when there is no concept drift. By doing so, the training time would be reduced when using ``good weights'' as the initialization weights.  Therefore, we came up with the second idea called \emph{Sliding Ensemble Neural Networks}. This model works as the following figure shows.
+		We further improved the model by choosing to pass the weights from one neural network to the subsequent neural network only in the case where there is no concept drift in the dataset. Moreover, by doing so, the training time gets reduced, since passing weights provides ``good weights'' as  initialization weights for each new neural network model.
+		
+		This new classification model is called \emph{Sliding Ensemble Neural Networks} or \emph{SENN}. This model works as the following figure shows.
 		
 		%By passing the weight from one NN to another, the training time is shorted. But since we don't keeping pass the weight, the neural networks won't get overfitting. Moreover, take the majority votes from all neural networks can preserve some information from the early data in the stream.
 		
@@ -553,58 +557,41 @@
 			\label{fig:SNN}
 		\end{figure}
 		
-		The building of this model is counter-intuitive because for an ensemble of classifiers to be more accurate than any of the individual members, it is necessary and sufficient that the classifiers are accurate and diverse \cite{Hansen}. An accurate classifier is one that has an error rate of better than 50\%. Two classifiers are diverse if they don't make errors on the same new data points \cite{Dietterich}. We therefore believe that there is a tradeoff between accuracy of individual models and diversity of the ensemble as a whole. In particular, in the case where the weights matrix is passed between subsequent neural network models, it can be considered equivalent to having trained the neural network on more data points, which increases the accuracy of a single classifier in the ensemble. On the other hand, since the classifiers are built from similar data with related weight we lose the diversity.  
+		The building of this model is counter-intuitive because for an ensemble of classifiers to be more accurate than any of its individual members, it is necessary and sufficient for the individual classifiers to be accurate and diverse \cite{Hansen}. In this context, an \emph{accurate} classifier is one that has an error rate better than 50\%. A set of classifiers is said to be \emph{diverse} if the classification errors of the classifiers are independent from each other \cite{Dietterich}. Informally, this means that they don't make classification errors on the same new data points (more than would be allowed by chance alone). We therefore believe that for SENN, there is a tradeoff between accuracy \emph{of individual models} and diversity of the ensemble. In particular, in the case where the final weights of a neural network are passed and used as the initial weights of the subsequent neural network, that is considered equivalent to having trained each neural network on more data points than are available in a sliding window. In turns, this increases the accuracy of individual classifiers in the ensemble (in addition to reducing training time). 
 		
-		However, the diversity issue can be solved by careful models selection. Since the size of ensembles is fixed, some The models picking means we only pick a constant $K$ classifiers to be in the ensemble. With the principle that we only pick classifiers who are diverse enough to each other, we can have the classifiers in the ensemble more accurate and diverse.
+		Of course, the end goal is to obtain the best accuracy from ensemble voting and not from individual neural networks. Thus, it is not immediately obvious what the best approach is as there is a delicate balance to establish, which we study in more details in Section~\ref{sec:passing-weights} and Section~\ref{sec:measurement-diversity}.
 		
-		The models picking also will help to reduce the memory need to run the algorithm. One of the main requirements for a stream mining algorithm was \emph{constant memory}. This is not an issue for the Sliding Mini-batch Neural Networks algorithm, since the memory used is constant and only depends on the number of weights of the neural network. The same weights matrix is reused when moving from one sliding window to the next, so memory use does not change.
-		
-		However, it is necessary to consider this issue for Sliding Ensemble Neural Networks, since it involves building a collection of classifiers. Of course, one cannot keep adding models (one per sliding windows) indefinitely. Therefore, we fix the maximum number of classifiers that a collection will use as a constant, denoted by $K$. This number is generally much much lower than $n$, the total number of sliding windows.
-		
-		Models (neural networks) are added to the collection until its size reaches $K$. At this point, the collection is full and we need to determine a way to \emph{continue learning}, so that the algorithm can adapt to the changing data (in the case of concept drift). In order to do so, some models will have to be dropped from the collection so that new models can be included. The principle of models picking is that the models in the ensemble are diverse in order to give better prediction. 
+		However, the diversity issue can be further improved by careful models selection. Since the size of ensembles is fixed due to memory restrictions, an algorithm for models picking is necessary and a good algorithm can improve diversity.
 		
 		\subsection{Model picking methods}
-		
-		This section describes what happens once the ensemble has reached its maximum
-		size $C$. Recall that since memory is limited, we cannot keep adding models indefinitely.
-		However, since the ensemble may not be optimal yet at the time that it reaches size $C$, we do
-		not want to discard all further models either. Indeed, we want the models of the ensemble to be as \emph{diverse} as possible and this require ongoing evaluation of potential new models.
+		\label{sec:model-picking}
+				
+		Models picking will also help to reduce the memory needed to run the algorithm. One of the main requirements for a stream mining algorithm was \emph{constant memory}. Models (neural networks) are added to an ensemble until its size reaches $C$. At this point, the ensemble may not be optimal yet, so we do not want to discard all further models and we need to determine a way to \emph{continue learning}. In order to do so, some models will have to be dropped from the collection so that new models can be included. The principle of models picking is that the models in the ensemble are as diverse as possible in order to give better prediction. 
 		
 		Moreover, in the case where the streaming datasets we are working with admits concept drifting, it is absolutely critical	to have a good model picking method that will be able to keep up with the concept drift.
 		
-		* The current model picking methods are:
-		
-		\begin{enumerate}
-			\item FIFO - First In, First Out
-			\item RRGD - Random Replacement with Geometric Distribution
-			\item MDS  - Maximal Diversity Subset
-		\end{enumerate}
+		The current model picking methods are:
 
-		* Moreover, it has all the usual underlying parameters of neural networks:
-		We introduce three methods that we designed to pick the models.
-		
 		\begin{enumerate}
-			\item The first method is to use a first in first out (FIFO) queue. The oldest model in the collection is dropped to make room for the new model. This is the simplest method and it allows the learning algorithm to adapt very quickly to changing concepts. However, it is susceptible to develop bias quickly if presented with a lot of unrepresentative training data.
+			\item \emph{First In, First Out.} The first method is to use a first in first out (FIFO) queue. The oldest model in the collection is dropped to make room for the new model. This is the simplest method and it allows the learning algorithm to adapt very quickly to changing concepts. However, it is susceptible to develop bias quickly if presented with a lot of unrepresentative training data.
 			
-			\item The second method involves random replacement with a non-uniform distribution. There are many non-uniform distributions that would do, the point is to make it such that models at the end of the collection rarely get replaced (long-term memory of the classifier), whereas models at the beginning of the collection frequently get replaced (ability to adapt quickly to change).
+			\item \emph{Random Replacement}. The second method involves random replacement with a non-uniform distribution. There are many non-uniform distributions that would do, the point is to make it such that models at the end of the collection rarely get replaced (long-term memory of the classifier), whereas models at the beginning of the collection frequently get replaced (ability to adapt quickly to change).
 			
-			For example, here is a valid way to do this. First, generate a random integer $r$ chosen according to the exponential distribution $\exp(\lambda = 0.1 K)$. Then, let $n = min(floor(r), K)$. We would then discard the model at position $n$ (counting from 0) in our ordered collection of models and replace it with a new model.
+			For example, here is a valid way to do this. First, generate a random integer $r$ chosen according to the geometric distribution $\exp(\lambda = 0.1 K)$. Then, let $n = min(floor(r), K)$. We would then discard the model at position $n$ (counting from 0) in our ordered collection of models and replace it with a new model.
 			
-			\item The third method is to use error correlation rate to pick up models in order to achieve the diversity in the ensemble. We want to replace those models who give the errors on the same data points. To decide how two models are diverse from each other, we compute the error correlation of all models on a testing dataset. For example, we use all data in one sliding window as the testing data. For each model, we print all errors made by this model. Therefore, we obtain a set of error vectors $X_1, \ldots, X_m \in \{0,1\}^n$, where $m$ is the number of models in the ensemble and $n$ is the number of data instances in the testing set. The attributes of the vectors are either 1 or 0, with 1 indicating a classification error and 0 indicating success. In order to measure the degree of diversity among the models, we then compute the pairwise dot product of all error vectors. In other words, we construct the $m \times m$ matrix $A = (a_{i,j})$ where $a_{i,j} = X_i \cdot X_j$. Small values of $A$ are thus considered ideal, as they indicate strong pairwise independence between models, whereas large values of $A$ are undesirable. Note that $A$ is the Gram matrix of $X_1, \ldots, X_m$. Models who tends to make the mistakes on the same data are undesirable in an ensemble \cite{Dietterich} and they can readily be identified from the matrix $A$.
+			\item \emph{Gramian Matrix Method.} The third method is to use the error correlation rate to pick up models in order to achieve  diversity in the ensemble. We want to replace those models who give the errors on the same data points. To decide how two models are diverse from each other, we compute the error correlation of all models on a testing dataset. For example, we use all data in one sliding window as the testing data. For each model, we print all errors made by this model. Therefore, we obtain a set of error vectors $X_1, \ldots, X_m \in \{0,1\}^n$, where $m$ is the number of models in the ensemble and $n$ is the number of data instances in the testing set. The attributes of the vectors are either 1 or 0, with 1 indicating a classification error and 0 indicating success. In order to measure the degree of diversity among the models, we then compute the pairwise dot product of all error vectors. In other words, we construct the $m \times m$ matrix $A = (a_{i,j})$ where $a_{i,j} = X_i^T X_j$. Small values of $A$ are thus considered ideal, as they indicate strong pairwise independence between models, whereas large values of $A$ are undesirable. Note that $A$ is the \emph{Gramian matrix} of $X_1, \ldots, X_m$. Models who tends to make the mistakes on the same data are undesirable in an ensemble \cite{Dietterich} and they can readily be identified from the matrix $A$.
 		\end{enumerate}
 		
 		%we have only been able to use and study the first method in the rest of the report.
 		
-		
-		
 		\section{Experimental Design}
 		\label{sec:experimental-design}
 		\subsection{Dataset}
-		The dataset we choose for our experiment is the Dodgers Loop Sensor Data Set from the UCI repository \cite{dataset}. It comes with two file: Dodgers.data and Dodgers.events. Dodgers.data contains 50,400 instances with 3 attributes (date, time, count of cars). Dodgers.events contains 81 instances with 6 attributes representing  Date, Begin event time, End event time, Game attendance, Away team, and W/L score. 
+		The dataset we chose for our experiment is the Dodgers Loop Sensor Data Set from the UCI repository \cite{dataset}. It comes with two file: Dodgers.data and Dodgers.events. Dodgers.data contains 50,400 instances with 3 attributes (date, time, count of cars). Dodgers.events contains 81 instances with 6 attributes representing  Date, Begin event time, End event time, Game attendance, Away team, and W/L score. 
 		
 		According to the dataset description \cite{dataset}, ``this loop sensor data was collected for the Glendale on ramp for the 101 North freeway in Los Angeles. It is close enough to the stadium to see unusual traffic after a Dodgers game, but not so close and heavily used by game traffic so that the signal for the extra traffic is overly obvious." 
 		
-		The observations of this dataset were taken over 25 weeks with count aggregates in every 5 minutes. Thus, 288 time data instances were generated per day with each data instance representing count of cars in a 5 minutes slot. The goal of this dataset is to predict the presence of a  game at Dodgers stadium. 
+		The observations of this dataset were taken over 25 weeks with count aggregates every 5 minutes. Thus, 288 data instances were generated per day with each data instance representing the cars count in a 5 minutes slot. This dataset is typically used with the goal of predicting the presence of a baseball game at Dodgers stadium based upon traffic patterns. 
 		
 		\subsection{Dealing with Missing Values}
 		\label{sec:missing-values}
@@ -618,7 +605,7 @@
 		
 		\subsection{Aggregating Data}
 		
-		Figure \ref{fig:typical-week} is the plot of a typical week of the Dodgers Loop Dataset. The blue lines indicate the beginning of games and the red lines indicate the end of games. 
+		Figure \ref{fig:typical-week} is the plot of a typical week of the Dodgers Loop Dataset. The blue lines indicate the beginning of games and the red lines indicates the end of games. 
 		
 		\begin{figure}[H]
 			\centering
@@ -628,7 +615,7 @@
 		\end{figure}
 		
 		Instead of predicting if individual data points fall within the window of a Dodgers game (between a blue line and a red line on the same day), we chose to work on the simpler task of predicting whether or not there was a Dodgers game held on any given day.
-		Therefore, we aggregate the data into days containing 288 integers each (as there are 288 five-minute intervals in a day). We then labelled days on which a Dodgers game was held with ``1'' and a day without a game as ``0''. 
+		Therefore, we aggregate the data into days containing 288 integers each (as there are 288 five-minute intervals in a day). We then labeled days on which a Dodgers game was held with ``1'' and a day without a game as ``0''. 
 		
 		A brief observation of the figure \ref{fig:typical-week} shows that there is always a spike in traffic around the time a game ends, compared to other days without a game. The difference is particularly easy to spot when comparing days of the same game, as it abstracts away variation in traffic during different days of the week. Therefore, a good classifier should be able to detect this pattern and give the correct prediction.
 		
@@ -653,13 +640,13 @@
 			\item We aggregated the data into 24 bins per day. Hence, each example has 24 numeric features;
 			\item The training dataset is the first 70 days after discarding bad rows;
 			\item The testing dataset is the remaining 89 days;
-			\item We used a value of $K=20$ for the maximum number of models per collection;
+			\item We used a value of $K=70$ for the maximum number of models per collection;
 			\item We used various values of $L$ for the size of each sliding window, described in each experiment;
 			\item The neural networks are trained with 200 maximum iterations (unless otherwise specified);
 			\item The neural networks have 4 neurons in the hidden layer.
 		\end{itemize}
 		
-		In order to provide a baseline comparison for our stream mining learning algorithms, we trained various popular classifiers on the Dodgers Dataset with the first 70 days for training. This dataset after data aggregation is small and becomes a toy model. We thus can easily train the popular batch learning classifiers on it. However, this is useful because it gives us an idea of what kind of results a data stream-based classifier could hope to achieve.
+		In order to provide a baseline comparison for our stream mining learning algorithms, we trained various popular classifiers on the Dodgers Dataset with the first 70 days for training. This dataset is small, particularly after data aggregation, and becomes a toy model. We thus can easily train the popular batch learning classifiers on it. However, this is useful because it gives us an idea of what kind of results a data stream-based classifier could hope to achieve.
 		
 		\section{Results}
 		\label{sec:experiments-and-results}
@@ -677,10 +664,11 @@
 		Notice that $k$-NN performs extremely well on this dataset, with over 96\% test accuracy. The other classifiers (excluding Naive Bayes, the coin flip and the constant choices) all hover around 85\% to 86\%, which suggests that an accuracy of 85\% would be a good objective to try to match or get as close as possible to.
 		
 		\subsection{Results of VFDT and incremental Neural Networks}
-		For the VFDT, we ran the algorithm hoeffding trees in MOA with the following parameter (after tuning): the grace period= 10, test size=89, and sample Frequency=42 with other parameters as default, this gave us the best performance of VFDT which is 58.43\%. This result is statistically lower than the performance of the batch leaner.
-		The reason may be that as the VFDT file reference in VFML \cite{VFML}: ``VFDT  will be most effective when learning from very large data sets, in the millions or billions, where there is plenty of data for it to make good statistical decisions. For smaller data sets you may consider the -batch parameter which makes it load all data into RAM and learn as a traditional decision tree learner. If you suspect that there is concept drift in the data set you may like to use the cvfdt tool instead''.
+		For the VFDT, we ran the Hoeffding trees classifier in MOA (Massive Online Analysis) with the following parameter (after tuning): the grace period is 10, the test size is 89 and the sample frequency is 42 (with all other parameters using default values), this gave us a performance of 58.43\%, which is the best VFDT performance we could get. This result is statistically lower than the performance of the batch leaner.
 		
-		On the other hand, the performance of incremental Neural Networks is better. We pass the first 70 days' data one by one into the neural network with updating the weight every time one data instance pass, and the data from the last 89 days as testing data. The only incremental learning achieve a accuracy of 82.14\%.
+		The reason may be that VFDT performs poorly on small dataset, as described in the VFML manual\cite{VFML}: ``VFDT  will be most effective when learning from very large data sets, in the millions or billions, where there is plenty of data for it to make good statistical decisions. For smaller data sets you may consider the -batch parameter which makes it load all data into RAM and learn as a traditional decision tree learner. If you suspect that there is concept drift in the data set you may like to use the cvfdt tool instead''.
+		
+		On the other hand, the performance of incremental neural networks is better. We passed the first 70 days of data one by one into a neural network while updating the weights after every single data instance. The data from the last 89 days formed the testing dataset. Theis incremental learning approach achieved an accuracy of 82.14\%.
 		
 		\subsection{Results of Sliding Mini-Batch Neural Networks}
 		
@@ -689,15 +677,16 @@
 			\centering
 			\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-minibatch}
 			\caption{Accuracy of Sliding Mini-Batch Neural Networks classifier on testing datasets.}
-			\label{fig:benchmark}
+			\label{fig:accuracy-smnn}
 		\end{figure}
 		The performance is poor with smaller window sizes since the training sets tend to be poorly balanced. The test accuracy with $L > 20$ is on average 85.5\%.
 		
 		
 		\subsection{Results of Sliding Ensemble Neural Networks}
+		\label{sec:results}
 		
 		Next, we consider our second method for classification of streaming data: the Sliding Ensemble Neural Networks method.
-		Again, all the parameters are the same as described in Experimental Design. The size of the hidden layer is 4, the maximum number of epochs is 50 and the decay is 0.1. We vary $L$ from 5 to 50.
+		Again, all the parameters are the same as described in Section~\ref{sec:experimental-design}. The size of the hidden layer is 4, the maximum number of epochs is 50 and the decay is 0.1. We vary $L$ from 5 to 50.
 		
 		\begin{figure}[H]
 			\centering
@@ -706,7 +695,10 @@
 			\label{fig:results-nnet-ensemble}
 		\end{figure}
 		
-		We get 86.0\% test accuracy. This is somewhat surprising for us, as the algorithm appears to overfit, yet the test accuracy is very good.
+		We get 86.0\% test accuracy. This is somewhat surprising for us, as we expected the algorithm to overfit, yet the test accuracy is very good.
+		
+		\subsection{Results of SENN with and without passing weights}
+		\label{sec:passing-weights}
 		
 		In the following experiments, we measured the time it took to train a neural network. We compare the Sliding Mini-Batch Neural Networks, where the weights are passed along from one sliding window to the next, to the Sliding Ensemble Neural Networks method, where neural networks are trained independently.
 		
@@ -717,28 +709,34 @@
 			\label{fig:results-nnet-ens-timing}
 		\end{figure}
 		
-		On average it takes 35\% more time to train a neural network from scratch than it does to train it when its initial weights are already ``good'' than when they are random.
+		On average it takes 35\% more time to train a neural network from scratch (using random initial weights) than it does to train it when its initial weights are already ``good''.
 		
-		Next, we looked at the accuracy of the two methods, based on the number of maximum training iterations used per sliding window. See the figure below for the results.
+		Next, we looked at the accuracy of the two methods, based on the number of maximum training iterations used per sliding window. See Figure~\ref{fig:maxit} for the results.
 		\begin{figure}[H]
 			\centering
 			\adjincludegraphics[width=1\linewidth, center]{figures/results-nnet-ens-maxit}
 			\caption{Comparison of Sliding Ensemble Neural Networks trained with passing weights between subsequent neural networks and without passing them.}
-			\label{fig:benchmark}
+			\label{fig:maxit}
 		\end{figure}
 		
 		Without a surprise, we find that Sliding Mini-Batch Neural Networks require a lot less training iterations to reach their maximal accuracy (this makes sense, since the weights are carrier from one neural network to the next). What is really interesting, however, is that the model where the neural networks are trained independently without passing weights seem to perform slightly better when the window size is big.
 		
-		There could be many reasons for this:
-		\begin{itemize}
-			\item Letting the initial weight matrix be random every time might help some of the neural networks reach a better global minimum, whereas passing the weights along might leave the neural networks ``trapped'' in a local minimum.
-			\item Using random initial weights might simply allow the neural networks to find more varied solutions, which helps with generalization and avoiding overfitting when taking votes over those neural networks. The Sliding Mini-batch Neural Networks might be ``too similar'' and all make the same overfitting errors.
-		\end{itemize}
+		The main reason that we attribute for this is the higher ensemble diversity that results from not passing weights. Indeed, we believe that this approach helps avoid overfitting and instead favors generalization, as the individual models are less likely to have the same biases.
 		
-		We studied this problem in more details. We attempted to vary the size of the hidden layers of the Sliding Mini-batch Neural Networks. We were hoping that reducing the model's complexity might help prevent overfitting. We also reduced the maximum number of iterations during training to aid in reducing overfitting as well. In either cases, the performance did not get better, but only worse.
+		%We studied this problem in more details. We attempted to vary the size of the hidden layers of the Sliding Mini-batch Neural Networks. We were hoping that reducing the model's complexity might help prevent overfitting. We also reduced the maximum number of iterations during training to aid in reducing overfitting as well. In either cases, the performance did not get better, but only worse.
 		
-		Therefore, this gives some support to the latter theory that the neural nets simply get ``stuck'' in local minima.
+		%Therefore, this gives some support to the latter theory that the neural nets simply get ``stuck'' in local minima.
 		
+		Finally, we investigated the performance of individual neural networks within ensembles. In other words, in Figure~\ref{fig:mean-accuracy-individual-models}, we did not perform any ensemble voting. Instead, we computed the test accuracy of each individual neural network within a SENN ensemble and then took the mean of those accuracies. We repeated the computation for various sliding window sizes as well as with and without passing of weights. We can therefore see in Figure~\ref{fig:mean-accuracy-individual-models} the contrast between the two approaches: individual models \emph{do} have higher accuracy in the case where weights are passed (yet, this does not necessarily lead to a higher ensemble accuracy, since models diversity is lower in this case --- see Section~\ref{sec:measurement-diversity}).
+
+		\begin{figure}[H]
+			\centering
+			\adjincludegraphics[width=1\linewidth, center]{figures/mean-accuracy-individual-models}
+			\caption{Mean accuracy of all individual neural networks in a SENN for various sliding window sizes.}
+			\label{fig:mean-accuracy-individual-models}
+		\end{figure}
+			
+			
 		\subsection{Comparison} 
 		
 		Finally, we compare the performance of both models in the following figure:
@@ -785,46 +783,74 @@
 		To pinpoint where the difference lies, we applied the Nemenyi test and obtained $q_{\text{SMNN-SENNp}}= 1.732051$,  $q_{\text{SMNN-SENNnp}}=25.114737$, $q_{\text{SENNp-SENNnp}}=23.382686$.
 		Check the table of $q$ test, we obtain that $q_\alpha=4.02$ for $\alpha=0.05$ and $df = (n-1)(k-1) = 9 \times 3 = 27$ for the Tukey test. For the Nemenyi test, we divide this value by $\sqrt{2}$. This yields $q_\alpha = 2.84$. Therefore, the null hypothesis can be rejected in all cases except the case of $q_{\text{SMNN-SENNp}}= 1.732051$, the comparison of Sliding Mini-batch Neural Networks and Sliding Ensemble Neural Networks with passing weight.
 		
+		Notice that both the Sliding Ensemble Neural Networks and the Sliding Mini-batch Neural Networks methods are algorithms in which the neural network connection weights are being passed from one neural net to the other (i.e. the final weight matrix of one neural network is used as initialization weights for the next neural network to be trained). Those two methods perform fairly similarly and they are both worse than the method which involves \emph{not} passing the weights. We attribute this difference due to higher diversity of ensembles in the latter approach. Indeed, see Section~\ref{sec:measurement-diversity} for more a measurement of the ensembles diversity.
 		
-		Notice that both the Sliding Ensemble Neural Networks and the Sliding Mini-batch Neural Networks methods are algorithms in which the neural network connection weights are being passed from one neural net to the other (i.e. the final weight matrix of one neural network is used as initialization weights for the next neural network to be trained). Those two methods perform fairly similarly and they are both worse than the method which involves \emph{not} passing the weights. We attribute this difference due to what is probably getting stuck at a local minimum.
+		\subsection{Measurement of Diversity of Ensembles}
+		\label{sec:measurement-diversity}
 		
-		Indeed, if good weights are reused, it makes it  difficult or unlikely for the optimization algorithms to climb outside of the local minimum and find a better global minimum. Moreover, since the Sliding Ensemble Neural Networks method is an ensemble method, it benefits from having models that are as distinct and uncorrelated as possible.
+		As mentioned in Section~\ref{sec:senn}, a high diversity of models in an ensemble leads to better overall accuracy of the ensemble. However, we suggested that there was a tradeoff between accuracy of individual models and ensemble diversity.
 		
-		\subsection{Diversity of Ensembles}
+		In this section, we measure the diversity of SENN ensembles by computing the error vectors $X_i$ on the testing set of each neural network in a SENN ensemble. Then, we compute the matrix $A = (a_{i,j})$ of pairwise dot products $a_{i,j} = X_i^T X_j$ (this is called the \emph{Gramian matrix} of $X_1, \ldots, X_m$).
 		
-		As mentioned in Section~\ref{sec:senn}, there is an important tradeoff between accuracy and diversity
+		We displayed the Gramian matrices as heatmaps in Figure~\ref{fig:gram-L30} and Figure~\ref{fig:gram-L50} for a SENN with sliding window size of 30 days and 50 days, respectively. Those figures suggest that in the case were weights are passed between subsequent neural networks in the training phase, then the errors matrices are highly correlated. In other words, we observe that the diversity of SENN ensembles is low when weights are passed, compared to the case where weights are not passed and ensembles are more diverse. This corresponds to what we expected.
 		
-		\section{Streaming Context}
+		% TODO: This is probably a fairly poor measurement. The Gramian matrices need to be normalized before they become useful. At the moment, for example, it suffices to add a single pair X_i, X_j of error matrices such that they are highly correlated (for example X_i = X_j) and such that |X_i| is fairly large and this will affect the entire heatmap and make everything look white except for the dot product of those two columns which will be black. I'm not sure which normalization needs to be performed, though, but it needs to take this problem into account.
 		
-		NOTE: We might try to merge this with the previous sections so that it looks "seamless", but I decided to write it separately since it is simpler and less confusing.
+		\begin{figure}[thb]
+			\centering
+			\subfloat[With weights passing.]{
+				{\includegraphics[width=0.5\linewidth]{figures/gram-matrix-L30-passweights} }
+			}%
+			%\qquad
+			\subfloat[No weights passing.]{
+				{\includegraphics[width=0.5\linewidth]{figures/gram-matrix-L30-donotpassweights} }
+			}%
+			\caption{Gramian matrices of SENN with sliding window of size 30. The matrices are represented as heatmaps, where the color white indicates a value of 0 and the color black is the largest value of the matrix --- 17 in Figure~(a) and 33 in Figure~(b). The matrix has size $41 \times 41$ since there are 41 neural networks in the SENN ensemble. The difference between Figure~(a) and Figure~(b) is that neural network weights are passed in the former and they are not passed in the latter.}
+			\label{fig:gram-L30}%
+		\end{figure}
+
+		\begin{figure}[thb]
+			\centering
+			\subfloat[With weights passing.]{
+				{\includegraphics[width=0.5\linewidth]{figures/gram-matrix-L50-passweights} }
+			}%
+			%\qquad
+			\subfloat[No weights passing.]{
+				{\includegraphics[width=0.5\linewidth]{figures/gram-matrix-L50-donotpassweights} }
+			}%
+			\caption{Gramian matrices of SENN with sliding window of size 30. The matrices are represented as heatmaps, where the color white indicates a value of 0 and the color black is the largest value of the matrix --- 15 in Figure~(a) and 16 in Figure~(b). The matrix has size $41 \times 41$ since there are 41 neural networks in the SENN ensemble. The difference between Figure~(a) and Figure~(b) is that neural network weights are passed in the former and they are not passed in the latter.}
+			\label{fig:gram-L50}%
+		\end{figure}
 		
-		NOTE: Need to do a section with and withotu concept drift.
+		%\section{Streaming Context}
 		
-		In the previous section, we constructed the SMNN and the SENN algorithms in the batch learning context. By this, we mean that in this context, the entire dataset is available, it is practical to hold it entirely in memory and the entire dataset is partitioned into mutually exclusive training and testing sets.
+		%NOTE: We might try to merge this with the previous sections so that it looks "seamless", but I decided to write it separately since it is simpler and less confusing.
 		
-		However, SMNN and SENN are stream mining algorithms -- the above was \emph{the first step} in the construction. In this section, we use much larger datasets from real-world sources and show SMNN and SENN work in the stream mining context.
+		%NOTE: Need to do a section with and withotu concept drift.
 		
-		\subsection{Training and testing sets in the streaming context}
+		%In the previous section, we constructed the SMNN and the SENN algorithms in the batch learning context. By this, we mean that in this context, the entire dataset is available, it is practical to hold it entirely in memory and the entire dataset is partitioned into mutually exclusive training and testing sets.
 		
-		In the stream mining context, we make the following assumptions:
-		\begin{enumerate}
-			\item A fraction $\alpha \geq 0$ of the dataset is static and can be pre-loaded, call it $X_\alpha$. This subset can be used for pre-training ()whenever $\alpha > 0$).
-			\item Rows that are outside o
-			\item A fraction $\beta \geq \alpha$ of the dataset, called $X_\beta$, is labeled ($\beta = 1$ is possible).
-			\item The rows in $X_\alpha$ ...
-			\item The rows in $X_\beta$ can only be accessed in a single pass (to be more precise, the sliding windows --- which contain a set of rows in $X_\beta$ --- can only be accessed in a single pass)
-			\item The memory available is limited such that it is only possible to hold at most a fraction $\gamma \ll 1$ of the dataset in memory (in practice, the value of $\gamma$ depends entirely on
-			specifics of the model, including scaling coefficients and constant memory used -- but we ignore such matters for simplicity's sake).
-		\end{enumerate}
-		Moreover, we assume that the dataset is \emph{ordered}, such that all rows belong to the fraction $\alpha$ described in 1) appear at the beginning of the dataset, before any other row which does not belong to 1). Similarly, the fraction $\beta$ of rows described by 2) appear at the beginning of the dataset.
+		%However, SMNN and SENN are stream mining algorithms -- the above was \emph{the first step} in the construction. In this section, we use much larger datasets from real-world sources and show SMNN and SENN work in the stream mining context.
 		
+		%\subsection{Training and testing sets in the streaming context}
+		
+		%In the stream mining context, we make the following assumptions:
+		%\begin{enumerate}
+		%	\item A fraction $\alpha \geq 0$ of the dataset is static and can be pre-loaded, call it $X_\alpha$. This subset can be used for pre-training ()whenever $\alpha > 0$).
+		%	\item Rows that are outside o
+		%	\item A fraction $\beta \geq \alpha$ of the dataset, called $X_\beta$, is labeled ($\beta = 1$ is possible).
+		%	\item The rows in $X_\alpha$ ...
+		%	\item The rows in $X_\beta$ can only be accessed in a single pass (to be more precise, the sliding windows --- which contain a set of rows in $X_\beta$ --- can only be accessed in a single pass)
+		%	\item The memory available is limited such that it is only possible to hold at most a fraction $\gamma \ll 1$ of the dataset in memory (in practice, the value of $\gamma$ depends entirely on specifics of the model, including scaling coefficients and constant memory used -- but we ignore such matters for simplicity's sake).
+		%\end{enumerate}
+		%Moreover, we assume that the dataset is \emph{ordered}, such that all rows belong to the fraction $\alpha$ described in 1) appear at the beginning of the dataset, before any other row which does not belong to 1). Similarly, the fraction $\beta$ of rows described by 2) appear at the beginning of the dataset.
 		
 		\section{Conclusion and Further Work}
 		\label{sec:conclusion}
 		
 		In this paper, we tested out two models: Sliding Mini-batch Neural Networks,  and Sliding Ensemble Neural Networks. They were both trained on sliding windows, which allows learning on labelled data of arbitrary sizes, as well as learning in an incremental fashion on continuous data that may even change with time (concept drift). We used a fairly small dataset called the Dodger Loop Sensor Data set, but the methods were developed with generalization to datasets of arbitrary size as the goal.
 		
-		The results indicate that the performances of the two models we proposed are all converging to that of popular batch learners, with Sliding Ensemble Neural Networks performed better than Sliding Mini-Batch Neural Networks. We believed that the relatively worse performance of  Sliding Mini-Batch Neural Networks came from the overfitting of the data or getting ``trapped'' in a local minimum. We tried reducing the number of nodes in the hidden layers and reducing the training iterations, but the result didn't improve that much. One future work can be done is to investigate on this overfitting and resolve the issue. In addition to using ensemble methods, a few other possible solutions could be to use an incremental version of PCA to reduce the number of features to make the input layer smaller.
+		The results indicate that the performances of the two models we proposed are all converging to that of popular batch learners, with Sliding Ensemble Neural Networks performed better than Sliding Mini-Batch Neural Networks. We believed that the relatively worse performance of  Sliding Mini-Batch Neural Networks came from the overfitting of the data. We tried reducing the number of nodes in the hidden layers and reducing the training iterations, but the result didn't improve that much. One future work can be done is to investigate on this overfitting and resolve the issue. In addition to using ensemble methods, a few other possible solutions could be to use an incremental version of PCA to reduce the number of features to make the input layer smaller.
 		
 		We also noticed that there seems to be a definite relationship between the size of sliding windows $L$ and the test accuracy of the classifiers. It is clear that for very small $L$, the sliding windows contain too few examples to be representative of the actual data and are frequently unbalanced, which explains the poor performance. However, for larger values of $L$, it is not clear what the nature of the relationship is and more research is required.
 		
